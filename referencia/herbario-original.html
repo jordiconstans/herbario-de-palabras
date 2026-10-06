@@ -1,0 +1,1198 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbario de Palabras</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,300;0,400;1,300;1,400&family=Lora:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg: #f7f4ee;
+  --ink: #1e1c18;
+  --brown: #7a5c38;
+  --branch: #c4b49a;
+  --leaf-bg: #eee8da;
+  --soft: #a89880;
+  --panel-bg: rgba(247,244,238,0.97);
+}
+
+html, body {
+  width: 100%; height: 100%;
+  overflow: hidden;
+  background: var(--bg);
+  font-family: 'Lora', serif;
+  cursor: default;
+  user-select: none;
+}
+
+/* ── GRAIN OVERLAY ── */
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+  opacity: 1;
+}
+
+/* ── HEADER ── */
+.site-header {
+  position: fixed; top: 0; left: 0; right: 0;
+  z-index: 100;
+  padding: 28px 40px 20px;
+  display: flex; justify-content: space-between; align-items: flex-end;
+  pointer-events: none;
+}
+
+.site-title {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 1px;
+  color: var(--soft);
+}
+
+.site-count {
+  font-size: 11px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--branch);
+}
+
+/* ── CANVAS for SVG branches ── */
+#tree-svg {
+  position: fixed; inset: 0;
+  width: 100%; height: 100%;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ── WORD NODES ── */
+#tree-container {
+  position: fixed; inset: 0;
+  z-index: 10;
+}
+
+.word-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  transition: transform 0.25s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+.word-node:hover {
+  transform: translate(-50%, -50%) scale(1.08);
+  z-index: 20;
+}
+
+.leaf {
+  position: relative;
+  padding: 18px 28px 16px;
+  background: var(--leaf-bg);
+  border: 1px solid #d8ccb8;
+  border-radius: 60% 40% 55% 45% / 50% 50% 50% 50%;
+  box-shadow: 2px 4px 16px rgba(100,80,40,0.1), inset 0 1px 0 rgba(255,255,255,0.5);
+  transition: all 0.25s ease;
+  text-align: center;
+  min-width: 110px;
+}
+
+.word-node:hover .leaf {
+  background: #ede5d0;
+  border-color: #c4a87a;
+  box-shadow: 4px 8px 28px rgba(100,80,40,0.18), inset 0 1px 0 rgba(255,255,255,0.6);
+}
+
+/* leaf vein */
+.leaf::before {
+  content: '';
+  position: absolute;
+  bottom: 8px; left: 50%;
+  transform: translateX(-50%);
+  width: 1px; height: 60%;
+  background: linear-gradient(to top, #c4b49a, transparent);
+  pointer-events: none;
+}
+
+.leaf-word {
+  font-family: 'Playfair Display', serif;
+  font-size: 19px;
+  font-style: italic;
+  font-weight: 400;
+  color: var(--ink);
+  line-height: 1;
+  display: block;
+}
+
+.leaf-cat {
+  display: block;
+  font-size: 9px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-top: 5px;
+}
+
+/* ROOT NODE */
+.root-node {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: default;
+  z-index: 5;
+}
+
+.root-label {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 13px;
+  font-style: italic;
+  letter-spacing: 2px;
+  color: var(--branch);
+  text-align: center;
+  white-space: nowrap;
+}
+
+/* ── DETAIL PANEL ── */
+#detail-panel {
+  position: fixed;
+  top: 0; right: 0;
+  width: min(480px, 100vw);
+  height: 100%;
+  background: var(--panel-bg);
+  border-left: 1px solid #ddd6c6;
+  z-index: 200;
+  overflow-y: auto;
+  padding: 0;
+  transform: translateX(100%);
+  transition: transform 0.45s cubic-bezier(0.77,0,0.18,1);
+  backdrop-filter: blur(2px);
+}
+
+#detail-panel.open {
+  transform: translateX(0);
+}
+
+.panel-close {
+  position: sticky; top: 0;
+  display: flex; justify-content: flex-end;
+  padding: 24px 28px 0;
+  background: var(--panel-bg);
+  z-index: 10;
+}
+
+.panel-close button {
+  background: none; border: none;
+  font-size: 20px; color: var(--soft);
+  cursor: pointer; padding: 4px 8px;
+  font-family: 'Lora', serif;
+  transition: color 0.2s;
+  line-height: 1;
+}
+.panel-close button:hover { color: var(--ink); }
+
+.panel-image {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  filter: grayscale(100%) brightness(1.05);
+  opacity: 0.22;
+}
+
+.panel-image-wrap {
+  position: relative;
+  margin-top: -48px;
+}
+
+.panel-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 80px;
+  background: linear-gradient(to bottom, transparent, var(--panel-bg));
+}
+
+.panel-body {
+  padding: 32px 44px 64px;
+}
+
+.panel-meta {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--soft);
+  margin-bottom: 16px;
+  display: flex; gap: 16px;
+}
+
+.panel-word {
+  font-family: 'Playfair Display', serif;
+  font-size: clamp(44px, 8vw, 60px);
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1;
+  color: var(--ink);
+  letter-spacing: -1px;
+  margin-bottom: 4px;
+}
+
+.panel-phonetic {
+  font-size: 13px;
+  color: var(--soft);
+  margin-bottom: 40px;
+  font-style: normal;
+  letter-spacing: 0.5px;
+}
+
+.panel-rule {
+  width: 32px; height: 1px;
+  background: var(--branch);
+  margin-bottom: 32px;
+}
+
+.panel-block { margin-bottom: 32px; }
+
+.panel-label {
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--brown);
+  margin-bottom: 10px;
+}
+
+.panel-text {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--ink);
+}
+
+.panel-text.etym {
+  font-style: italic;
+  color: #6a5840;
+  font-size: 14.5px;
+}
+
+.panel-text.aura {
+  font-style: italic;
+  color: var(--soft);
+  font-size: 14px;
+  padding-left: 16px;
+  border-left: 1px solid var(--branch);
+}
+
+.panel-date {
+  margin-top: 40px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: #c4b49a;
+  text-transform: uppercase;
+}
+
+/* ── ADD BUTTON ── */
+#add-btn {
+  position: fixed;
+  bottom: 32px; left: 40px;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 13px 28px;
+  cursor: pointer;
+  border-radius: 2px;
+  transition: background 0.2s, transform 0.15s;
+  box-shadow: 0 4px 20px rgba(30,28,24,0.2);
+}
+#add-btn:hover { background: var(--brown); transform: translateY(-1px); }
+
+/* ── ADD FORM PANEL ── */
+#form-panel {
+  position: fixed;
+  bottom: 0; left: 0; right: 0;
+  z-index: 300;
+  background: var(--panel-bg);
+  border-top: 1px solid #ddd6c6;
+  padding: 36px 40px 40px;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.77,0,0.18,1);
+  max-height: 85vh;
+  overflow-y: auto;
+}
+
+#form-panel.open { transform: translateY(0); }
+
+.form-header {
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 28px;
+}
+
+.form-title {
+  font-family: 'Playfair Display', serif;
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.form-close {
+  background: none; border: none;
+  font-size: 20px; color: var(--soft);
+  cursor: pointer;
+  transition: color 0.2s;
+}
+.form-close:hover { color: var(--ink); }
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 1px;
+  background: #ddd6c6;
+  margin-bottom: 1px;
+}
+
+.form-group {
+  background: var(--bg);
+  padding: 16px 20px;
+  display: flex; flex-direction: column; gap: 8px;
+}
+
+.form-group.wide { grid-column: span 2; }
+.form-group.full { grid-column: 1 / -1; }
+
+label {
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--brown);
+}
+
+input, textarea {
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid #ddd6c6;
+  padding: 6px 0 8px;
+  font-family: 'Lora', serif;
+  font-size: 14px;
+  color: var(--ink);
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+
+input:focus, textarea:focus { border-color: var(--brown); }
+input::placeholder, textarea::placeholder { color: #c8c0b0; font-style: italic; }
+textarea { resize: none; min-height: 64px; line-height: 1.65; }
+
+.btn-submit {
+  margin-top: 20px;
+  background: var(--ink);
+  color: var(--bg);
+  border: none;
+  font-family: 'Lora', serif;
+  font-size: 13px;
+  letter-spacing: 1px;
+  padding: 13px 36px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.btn-submit:hover { background: var(--brown); }
+
+/* ── OVERLAY ── */
+#overlay {
+  position: fixed; inset: 0;
+  background: rgba(30,28,24,0.15);
+  z-index: 150;
+  opacity: 0; pointer-events: none;
+  transition: opacity 0.35s;
+}
+#overlay.visible { opacity: 1; pointer-events: all; }
+
+/* ── FLOATING HINT ── */
+.hint {
+  position: fixed;
+  bottom: 38px; right: 40px;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--branch);
+  text-transform: uppercase;
+  font-family: 'Lora', serif;
+  font-style: italic;
+  pointer-events: none;
+  z-index: 100;
+  animation: fadehint 3s ease 1.5s both;
+}
+
+@keyframes fadehint {
+  0%   { opacity: 0; transform: translateY(4px); }
+  20%  { opacity: 1; transform: translateY(0); }
+  80%  { opacity: 1; }
+  100% { opacity: 0; }
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="site-title">Herbario de palabras</div>
+  <div class="site-count" id="site-count"></div>
+</header>
+
+<!-- SVG for branches -->
+<svg id="tree-svg" xmlns="http://www.w3.org/2000/svg"></svg>
+
+<!-- Word nodes -->
+<div id="tree-container"></div>
+
+<!-- Detail panel -->
+<div id="detail-panel">
+  <div class="panel-close"><button onclick="closePanel()">✕</button></div>
+  <div id="panel-image-wrap" class="panel-image-wrap" style="display:none">
+    <img id="panel-image" class="panel-image" src="" alt="">
+  </div>
+  <div class="panel-body">
+    <div class="panel-meta">
+      <span id="panel-cat"></span>
+      <span id="panel-date"></span>
+    </div>
+    <div class="panel-word" id="panel-word"></div>
+    <div class="panel-phonetic" id="panel-phonetic"></div>
+    <div class="panel-rule"></div>
+    <div class="panel-block" id="panel-meaning-block">
+      <div class="panel-label">Significado</div>
+      <p class="panel-text" id="panel-meaning"></p>
+    </div>
+    <div class="panel-block" id="panel-etym-block">
+      <div class="panel-label">Etimología</div>
+      <p class="panel-text etym" id="panel-etym"></p>
+    </div>
+    <div class="panel-block" id="panel-aura-block">
+      <div class="panel-label">Aura</div>
+      <p class="panel-text aura" id="panel-aura"></p>
+    </div>
+  </div>
+</div>
+
+<!-- Overlay -->
+<div id="overlay" onclick="closeAll()"></div>
+
+<!-- Add button -->
+<button id="add-btn" onclick="openForm()">+ Agregar palabra</button>
+
+<!-- Hint -->
+<div class="hint">posa el cursor sobre una palabra</div>
+
+<!-- Add form -->
+<div id="form-panel">
+  <div class="form-header">
+    <div class="form-title">Nueva palabra</div>
+    <button class="form-close" onclick="closeForm()">✕</button>
+  </div>
+  <div class="form-grid">
+    <div class="form-group wide">
+      <label>Palabra</label>
+      <input type="text" id="inp-word" placeholder="Noctiluca…">
+    </div>
+    <div class="form-group">
+      <label>Categoría</label>
+      <input type="text" id="inp-cat" placeholder="Sustantivo f.">
+    </div>
+    <div class="form-group wide">
+      <label>Fonética</label>
+      <input type="text" id="inp-phonetic" placeholder="/nok.tiˈlu.ka/">
+    </div>
+    <div class="form-group">
+      <label>Fecha</label>
+      <input type="date" id="inp-date">
+    </div>
+    <div class="form-group full">
+      <label>URL de imagen (opcional)</label>
+      <input type="text" id="inp-image" placeholder="https://images.unsplash.com/…">
+    </div>
+    <div class="form-group full">
+      <label>Significado</label>
+      <textarea id="inp-meaning" placeholder="Definición y matices…"></textarea>
+    </div>
+    <div class="form-group full">
+      <label>Etimología</label>
+      <textarea id="inp-etym" placeholder="Raíz, historia, familia de palabras…"></textarea>
+    </div>
+    <div class="form-group full">
+      <label>Aura</label>
+      <textarea id="inp-aura" placeholder="Lo que evoca más allá de su definición…"></textarea>
+    </div>
+  </div>
+  <button class="btn-submit" onclick="submitWord()">Plantar en el herbario</button>
+</div>
+
+<script>
+const KEY = 'herbario_tree_v1';
+
+const seed = [
+  {
+    word: "Cariz",
+    phonetic: "/kaˈɾiθ/",
+    category: "Sustantivo m.",
+    date: "2026-05-13",
+    image: "",
+    meaning: "Aspecto o semblante que presenta algo, especialmente cuando anuncia un giro inminente. Se usa casi siempre para indicar que las cosas están tomando una dirección nueva —generalmente inquietante.",
+    etymology: "Del catalán o provenzal caire, y este del latín quadrum (cuadrado, ángulo, cara). La misma raíz de 'cara' y 'cuadro'. Empezó designando el perfil o ángulo visible de algo, y migró hacia el sentido figurado de 'aspecto que toman los acontecimientos'.",
+    aura: "Palabra de transición. Siempre aparece cuando algo está a punto de cambiar de naturaleza. 'Esto está tomando un cariz…' — y ahí se detiene, cargada de lo que viene."
+  },
+  {
+    word: "Némesis",
+    phonetic: "/ˈne.me.sis/",
+    category: "Sustantivo f.",
+    date: "2026-05-16",
+    image: "",
+    meaning: "La retribución inevitable; la fuerza que equilibra el exceso devolviendo lo que se merece. También: el adversario que encarna exactamente lo que uno no puede vencer, porque lo refleja o lo completa.",
+    etymology: "Del griego Νέμεσις (Némesis), diosa de la indignación justa y la retribución. Deriva de νέμειν (némein): distribuir, repartir. Lo que Némesis distribuye es la justa consecuencia — ni más ni menos.",
+    aura: "No es el castigo arbitrario sino el que estaba escrito. Hay algo casi matemático en ella: toda desmesura genera su propia némesis. La palabra carga con la incomodidad de lo merecido."
+  },
+  {
+    word: "Mímesis",
+    phonetic: "/ˈmi.me.sis/",
+    category: "Sustantivo f.",
+    date: "2026-05-16",
+    image: "",
+    meaning: "La imitación como principio creador. En Aristóteles, el arte no copia la realidad sino que la recrea — la mímesis no es calco sino reinterpretación. También: el proceso por el que aprendemos siendo otros antes de ser nosotros mismos.",
+    etymology: "Del griego μίμησις (mímesis), de μιμεῖσθαι (mimeísthai): imitar. Comparte raíz con 'mímica' y 'pantomima'. Platón la veía con sospecha — dos grados alejada de la verdad. Aristóteles la rehabilitó: imitar es conocer.",
+    aura: "Tiene algo de espejo que piensa. No es la copia servil sino el gesto de entender algo reproduciéndolo. Todo aprendizaje empieza en mímesis antes de volverse voz propia."
+  },
+  {
+    word: "Artesiano",
+    phonetic: "/aɾ.te.ˈsja.no/",
+    category: "Adjetivo / Sustantivo m.",
+    date: "2026-05-16",
+    image: "",
+    meaning: "Pozo artesiano: perforación profunda donde el agua brota por presión subterránea, sin necesidad de bomba. Por extensión: fuente que surge naturalmente del interior sin esfuerzo externo; lo que fluye desde adentro.",
+    etymology: "Del francés artésien, de Artois (región de Francia donde estos pozos fueron descubiertos en el siglo XII). El agua no viene de afuera: viene de capas profundas, presionada por la propia estructura geológica. La palabra carga con la idea de lo interno que busca salida.",
+    aura: "Hay algo de inevitabilidad en ella. Un pozo artesiano no decide fluir — debe hacerlo. Como aquello que lleva dentro de sí su propia necesidad de expresarse."
+  },
+  {
+    word: "Artefacto",
+    phonetic: "/aɾ.te.ˈfak.to/",
+    category: "Sustantivo m.",
+    date: "2026-05-20",
+    image: "",
+    meaning: "Objeto fabricado por la mano humana, especialmente uno de valor arqueológico o histórico. También: cualquier cosa hecha artificialmente, construida deliberadamente — todo lo que no es natural sino manufacturado.",
+    etymology: "Del latín artefactum, de ars (arte, oficio) + factum (hecho, fabricado). La raíz es la misma de 'artificio' y 'artificial'. En origen, simplemente: lo hecho con arte, con técnica. Luego pasó a significar lo viejo y rescatable, lo que el tiempo vuelve enigmático.",
+    aura: "Palabra que ve las cosas con curiosidad arqueológica. Un artefacto no es solo una cosa — es algo que alguien hizo, que funcionó, que ahora nos mira desde el pasado. Carga la idea de que toda fabricación es un acto de intención que sobrevive."
+  },
+  {
+    word: "Hipérbole",
+    phonetic: "/i.ˈpɛɾ.bo.le/",
+    category: "Sustantivo f.",
+    date: "2026-05-21",
+    image: "",
+    meaning: "Exageración deliberada que busca enfatizar algo — decir más de lo que hay para que se entienda mejor lo que hay. No es mentira: es verdad amplificada. 'Te he dicho mil veces' no tiene mil, pero expresa la repetición insoportable.",
+    etymology: "Del griego ὑπερβολή (hyperbolé), de ὑπέρ (hyper: sobre, exceso) + βάλλειν (bállein: lanzar). Literalmente: 'lanzar más allá'. En matemática, es la curva que va al infinito. En retórica, la palabra que se lanza más allá de lo real para que rebote con verdad.",
+    aura: "La hipérbole es la exageración que dice la verdad. No miente — amplifica. Tiene algo de generoso: quien la usa cree que lo moderado no alcanza para expresar lo que siente."
+  },
+  {
+    word: "Hipérbaton",
+    phonetic: "/i.ˈpɛɾ.ba.ton/",
+    category: "Sustantivo m.",
+    date: "2026-05-21",
+    image: "",
+    meaning: "Alteración del orden sintáctico normal de las palabras en la oración. No es una omisión sino un desorden deliberado: cambiar el orden natural para crear énfasis, ritmo o extrañeza. 'De piedra, el corazón' en lugar de 'El corazón de piedra'.",
+    etymology: "Del griego ὑπέρβατον (hypérbaton), de ὑπέρ (hyper: sobre) + βαίνειν (baínein: ir, caminar). Literalmente: 'ir más allá', 'traspasar'. La palabra que salta su orden natural, que camina fuera de lugar.",
+    aura: "El hipérbaton es la sintaxis que se niega a obedecer. Suena extraño pero abre espacios — invita a releer, a reconsiderar. Es el orden roto que hace oír mejor."
+  },
+  {
+    word: "Metáfora",
+    phonetic: "/me.ˈta.fo.ɾa/",
+    category: "Sustantivo f.",
+    date: "2026-05-21",
+    image: "",
+    meaning: "Traslación del significado de una palabra a otro sentido distinto — decir que algo es algo que no es literalmente, pero que comparte esencia. No es comparación (que dice 'como'), sino identidad: 'eres fuego' en lugar de 'eres como fuego'.",
+    etymology: "Del griego μεταφορά (metaphorá), de μετά (metá: más allá, cambio) + φέρειν (phérein: llevar, transportar). Literalmente: 'llevar más allá'. El significado se transporta de un lugar a otro, cambia de casa.",
+    aura: "La metáfora es el cambio de significado que suena como verdad. No explica — revela. Cuando funciona, no parece figurado sino simplemente exacto. Es la forma en que el pensamiento viaja entre las cosas."
+  },
+  {
+    word: "Infula",
+    phonetic: "/inˈfu.la/",
+    category: "Sustantivo f.",
+    date: "2026-05-22",
+    image: "",
+    meaning: "Banda, cinta o venda sagrada, especialmente la que portaban los sacerdotes romanos en ceremonias. Símbolo de autoridad ritual y consagración. Por extensión: cualquier distintivo que marca lo sagrado o lo separado.",
+    etymology: "Del latín infula: venda sacerdotal, cinta ritual. Posiblemente emparentada con 'fimbria' (fleco, borde). Era el atributo visible del poder sacro — no se podía ver autoridad, pero sí la cinta que la marcaba.",
+    aura: "Palabra antigua que carga solemnidad. Una infula no es solo un adorno — es un signo que dice 'esto es diferente, esto es sagrado'. Evoca ceremonias olvidadas donde lo ritual tenía peso físico."
+  },
+  {
+    word: "Ludita",
+    phonetic: "/lu.ˈdi.ta/",
+    category: "Adjetivo / Sustantivo com.",
+    date: "2026-05-23",
+    image: "",
+    meaning: "Persona que se opone a la nueva tecnología, especialmente por temor a que destruya empleos o formas de vida. En origen: miembro del movimiento obrero inglés que destruía maquinaria textil a principios del siglo XIX.",
+    etymology: "De Ned Ludd, figura quizá legendaria a quien se atribuía haber destruido telares hacia finales del siglo XVIII en Inglaterra. Los luditas (1811-1816) tomaron su nombre como bandera. La historia los recuerda como enemigos del progreso, aunque su lucha era más bien por las condiciones de trabajo que la máquina venía a precarizar.",
+    aura: "Palabra que el tiempo cargó de prejuicio. Hoy se usa casi como insulto —'sos un ludita'—, pero esconde una pregunta vigente: ¿quién decide qué cuenta como progreso, y a costa de quién? Resuena distinto en plena era de la automatización."
+  },
+  {
+    word: "Poliedro",
+    phonetic: "/po.liˈe.dɾo/",
+    category: "Sustantivo m.",
+    date: "2026-05-23",
+    image: "",
+    meaning: "Sólido geométrico limitado por varias caras planas (polígonos). En sentido figurado: lo que presenta múltiples aspectos o facetas, cada uno diferente, sin que uno sea el 'verdadero'.",
+    etymology: "Del griego πολύ (polí: muchos) + ἕδρα (hédrā: cara, faceta, asiento). Literalmente: 'muchas caras'. La misma estructura de 'multi' + 'cara' en latín. Cada cara es plana, pero el conjunto genera una forma tridimensional compleja.",
+    aura: "Palabra que revela la multiplicidad sin contradicción. Un poliedro no es inconsistente — es exactamente consistente. Cada cara refleja la luz de manera distinta, pero todas pertenecen a la misma cosa. Para describir personas, ideas, situaciones que tienen varios lados y todos son reales."
+  },
+  {
+    word: "Vicario",
+    phonetic: "/biˈka.ɾjo/",
+    category: "Adjetivo / Sustantivo m.",
+    date: "2026-05-23",
+    image: "",
+    meaning: "Que sustituye a otro o hace sus veces. Como sustantivo: quien ejerce una autoridad en nombre de otro (el vicario de una parroquia, el Papa como 'vicario de Cristo'). En psicología, 'experiencia vicaria' es la que se vive a través de otro: aprender, sentir o gozar por lo que le pasa a alguien más.",
+    etymology: "Del latín vicarius: sustituto, suplente. De vicis: turno, vez, alternancia — la misma raíz de 'vez', 'veces' y 'vicisitud'. El vicario ocupa el lugar de otro 'por turno', toma su vez. Estar en lugar de alguien.",
+    aura: "Palabra de la representación y lo indirecto. Una vida vicaria es la que se vive a través de otros; un placer vicario, el que se siente por lo ajeno. Tiene algo melancólico — la idea de experimentar de segunda mano, de ser el suplente de la propia experiencia."
+  },
+  {
+    word: "Persignarse",
+    phonetic: "/peɾ.siɣˈnaɾ.se/",
+    category: "Verbo pronominal",
+    date: "2026-05-24",
+    image: "",
+    meaning: "Hacerse la señal de la cruz, trazándola sobre la frente, la boca y el pecho. Por extensión coloquial: expresar asombro o alarma ante algo, como quien se santigua para protegerse.",
+    etymology: "Del latín persignare: per (intensivo) + signare (marcar, hacer una señal), de signum (signo, señal). Literalmente, 'marcarse con la señal' (de la cruz). Comparte raíz con 'signo', 'señal' y 'designar'. Se escribe con S, no con C — pese a que el oído engañe.",
+    aura: "Gesto antiguo convertido en palabra. Persignarse es marcar el cuerpo con un signo, volver visible una creencia. Aun fuera de lo religioso, conserva el aire de quien busca protección ante lo que lo sobrepasa."
+  },
+  {
+    word: "Vigente",
+    phonetic: "/biˈhen.te/",
+    category: "Adjetivo",
+    date: "2026-05-24",
+    image: "",
+    meaning: "Que está en vigor, que tiene fuerza legal o práctica en el presente. Lo que sigue vivo, activo, aplicable ahora. Opuesto a derogado, abolido, obsoleto.",
+    etymology: "Del latín vigens, participio de vigere: tener fuerza, estar vivo, vigorizar. La misma raíz de 'vigor' y 'vigoroso'. Algo vigente no está muerto — aún tiene vida, presencia, poder de actuar.",
+    aura: "Palabra que marca una frontera temporal. Lo vigente es lo que sigue teniendo lugar en el ahora; lo que cesa de serlo es historia. Tiene la tensión de algo que está aquí todavía, pero con la conciencia de que no siempre lo estará."
+  },
+  {
+    word: "Etcétera",
+    phonetic: "/et.ˈθe.te.ɾa/",
+    category: "Sustantivo m. / Locución",
+    date: "2026-05-24",
+    image: "",
+    meaning: "Y lo demás, y lo restante. Palabra que indica que hay más cosas de la misma índole, pero que no se enumeran. El punto donde el hablante cesa de enumerar porque el patrón es obvio, porque le aburre, o porque lo que falta carece de importancia.",
+    etymology: "Del latín 'et cetera': 'y las otras cosas'. Et = y; cetera = otras (plural neutro de 'ceterus'). Fue originalmente una frase completa que se abrevió tanto que se fosilizó en una palabra única. A menudo se abrevia como 'etc.'",
+    aura: "La palabra del cansancio y la pereza, pero también de la inteligencia. Etcétera es decir 'entiendes el patrón, no hace falta que siga'. Tiene algo de libertad — renunciar a ser exhaustivo. También algo de insatisfacción — todo lo importante quedó sin decir."
+  },
+  {
+    word: "Marabunta",
+    phonetic: "/ma.ɾa.ˈbun.ta/",
+    category: "Sustantivo f.",
+    date: "2026-05-25",
+    image: "",
+    meaning: "Enjambre de hormigas soldado (especialmente Atta cephalotes) que invade territorio en masa, devorando todo a su paso. Por extensión: multitud desorganizada pero irresistible que arrasa, que avanza sin control. Ejército de lo pequeño que se vuelve potencia.",
+    etymology: "La etimología es disputada. Probablemente del africano (posiblemente yoruba o bantu), llegó al español a través de fuentes coloniales de América tropical. Algunos trazan una conexión al árabe 'marabito' (monje guerrero), pero sin certeza establecida. Lo que sí es claro: era ya palabra del español americano cuando describía esas invasiones de hormigas que los europeos vieron con horror y fascinación.",
+    aura: "Palabra que mira lo pequeño pero le da escala de invasión. Una marabunta es lo imposible de detener porque no hay un punto único donde atacar — es la masa. Suena a amenaza orgánica, a algo que viene de la tierra misma."
+  },
+  {
+    word: "Providencia",
+    phonetic: "/pɾo.bi.ˈden.θja/",
+    category: "Sustantivo f.",
+    date: "2026-05-25",
+    image: "",
+    meaning: "Previsión, cuidado premeditado. Lo que se prevé o se cuida de antemano. En teología: el cuidado divino que ordena el mundo. En sentido coloquial: suerte, casualidad que parece diseñada, como si alguien invisible cuidara que las cosas salgan bien.",
+    etymology: "Del latín providentia: pro (adelante, antes) + videre (ver). Literalmente 'ver antes', 'ver de antemano'. La misma raíz de 'vidente' y 'evidente'. Providencia es la capacidad de prever, de cuidar lo que vendrá. En la Edad Media pasó a significar el cuidado de Dios sobre la creación.",
+    aura: "Palabra que vive en la frontera entre lo divino y lo casual. Cuando algo funciona contra toda lógica y decimos 'fue providencia', estamos nombrando lo inexplicable como si fuera cuidado. Suena a alivio, a la certeza de que alguien — o algo — está mirando."
+  },
+  {
+    word: "Denante",
+    phonetic: "/de.ˈnan.te/",
+    category: "Adverbio",
+    date: "2026-05-25",
+    image: "",
+    meaning: "Antes, en un tiempo inmediatamente anterior al presente. Palabra arcaica que denota prioridad de tiempo, especialmente un pasado reciente — no hace mucho, hace poco.",
+    etymology: "Del latín 'de in ante': literalmente 'de en antes'. Una construcción preposicional que evolucionó fonéticamente hasta la forma actual. Tuvo esplendor en el español medieval y clásico; hoy es desusada en la mayoría de países, pero se mantiene vigente en Chile y Bolivia.",
+    aura: "Palabra que suena a tiempo medido con intimidad. No es el 'antes' genérico sino un antes cercano, reciente, que aún resuena. Arcaica pero no muerta — sigue viva en ciertos lugares, como aquellas cosas que se desvanecen pero no desaparecen."
+  },
+  {
+    word: "Divorcio",
+    phonetic: "/di.ˈboɾ.sjo/",
+    category: "Sustantivo m.",
+    date: "2026-05-26",
+    image: "",
+    meaning: "Disolución legal del vínculo matrimonial. Acción y efecto de divorciar o divorciarse. Por extensión figurada: separación de cosas o personas que estaban unidas, ruptura de una alianza o relación.",
+    etymology: "Del latín divortium: di- (separación, aparte) + vertere (girar, volver, dar la vuelta, apartarse). Literalmente: 'girar hacia lados opuestos', 'volver aparte'. En origen, los romanos usaban 'divortium' para designar incluso tierras separadas por un brazo de mar, donde cada orilla se dirigía hacia un lado opuesto. De ahí pasó a significar la separación conyugal: dos que vuelven la espalda uno al otro y cada cual toma su camino.",
+    aura: "Palabra legal pero cargada de dolor. No es simplemente una separación sino su formalización, el momento en que lo temporal se vuelve permanente por la ley. Tiene peso de finitud — marca un antes y un después que no pueden negociarse. Y subyace en su raíz esa imagen: dos personas que se dan la vuelta, se apartan, giran en direcciones opuestas."
+  },
+  {
+    word: "Escaque",
+    phonetic: "/es.ˈka.ke/",
+    category: "Sustantivo m.",
+    date: "2026-05-26",
+    image: "",
+    meaning: "Cada una de las casillas cuadradas, blancas y negras alternadamente, en que se divide el tablero de ajedrez y el del juego de damas. Por extensión: cualquier cuadrícula o división cuadrada de un patrón. En plural (escaques), también designa el juego del ajedrez.",
+    etymology: "Del árabe hispánico iššáh, este del árabe clásico as-šāh, y este del persa šāh (rey). La palabra persa 'shah' significa rey — la raíz que también aparece en 'jaque', 'jaque mate', 'ajedrez' y 'cheque'. Lo que comenzó nombrando al rey en persa terminó nombrando los cuadros de su tablero en español.",
+    aura: "Palabra que habla de orden y alternancia. Un escaque no es solo un espacio sino parte de un sistema simétrico: blanco y negro, luz y sombra, contrarios que necesitan uno al otro. Algo profundamente matemático, pero también estratégico — cada escaque es una posibilidad, una decisión."
+  },
+  {
+    word: "Gravitas",
+    phonetic: "/ɡɾa.ˈβi.tas/",
+    category: "Sustantivo f.",
+    date: "2026-05-27",
+    image: "",
+    meaning: "Seriedad, solemnidad y dignidad moral. Peso no físico sino espiritual — la sustancia de una persona o asunto. En la Roma antigua era una virtud cardinal, junto con pietas, dignitas y virtus: la capacidad de obrar con integridad, responsabilidad y rigor moral.",
+    etymology: "Del latín gravitas, formado a partir del adjetivo gravis (pesado, importante, grave). Esta raíz remonta a la protoindoeuropea gru-, que también da origen al griego barus (pesado), al sánscrito guru (maestro sagrado, grave, solemne) y a nuestras palabras grave, gravedad y gravamen. Lo pesado no es solo materia — es también autoridad moral, el peso de lo que importa.",
+    aura: "Palabra que conecta el peso físico con el peso moral. Un orador con gravitas no habla alto sino que hace silencio a su alrededor. Es lo opuesto al ruido. Tiene la resonancia de algo antiguo — de los romanos que creían que una virtud podía sostenerte como una columna sostiene un edificio."
+  },
+  {
+    word: "Contumaz",
+    phonetic: "/kon.tu.ˈmaθ/",
+    category: "Adjetivo",
+    date: "2026-05-27",
+    image: "",
+    meaning: "Rebelde, porfiado y tenaz en mantener un error — que no ceja en una decisión pese a pedidos o argumentos razonables en sentido contrario. Que se niega a ceder, a doblegarse, a escuchar. Por extensión técnica: dicho de una materia o sustancia propia para retener y propagar gérmenes de contagio.",
+    etymology: "Del latín contumax, -acis. Formado por el prefijo con- (acción conjunta) + raíz tum- del verbo tumēre (hincharse, crecer, elevarse) + sufijo -az (fuerte tendencia a algo). La misma raíz tum- aparece en tumor, tumescencia, túmulo, tuberculosis. Vinculada a la raíz indoeuropea *teuə- (hincharse). El contumaz es quien se 'hincha' de su propia posición, se dilata en su negación.",
+    aura: "Palabra que describe una resistencia casi física — no es solo terquedad sino una especie de inflamación del espíritu. Hay algo de orgullo herido en contumacia. La persona contumaz no argumenta sino que se yergue, se agranda en su negativa. Suena a alguien que se ha cerrado con cerrojo."
+  },
+  {
+    word: "Impía",
+    phonetic: "/im.ˈpi.a/",
+    category: "Adjetivo / Sustantivo f.",
+    date: "2026-05-27",
+    image: "",
+    meaning: "Falto de piedad, falta de religión, irrespetuosa con lo sagrado o lo religioso. Que carece de la virtud de la piedad o de fe. Contrario, hostil a la religión, a la devoción y al respeto.",
+    etymology: "Del latín impius, compuesto del prefijo in- (negación, sin) + pius (piadoso, devoto, religioso). Literalmente: 'no piadoso', 'sin piedad'. Es la negación directa de pío — mientras que pío denota devoción y respeto hacia lo sagrado, impía marca la ausencia de esa virtud, la hostilidad o indiferencia hacia ella.",
+    aura: "Palabra cargada de severidad religiosa. No es simplemente quien no cree, sino quien falta al respeto hacia lo que otros consideran sagrado. Tiene un aire de acusación, de condena moral. En épocas de fe institucional, ser impío era ser rechazado socialmente. Hoy resuena como rechazo a la imposición, como libertad o transgresión dependiendo de quién la pronuncie."
+  },
+  {
+    word: "Bártulos",
+    phonetic: "/ˈbaɾ.tu.los/",
+    category: "Sustantivo m. pl.",
+    date: "2026-05-28",
+    image: "",
+    meaning: "Enseres, objetos de uso personal o necesarios para una actividad. Lo que se transporta de un lugar a otro — bultos, trebejos, cachivaches. Coloq. Se usa en expresiones como 'coger los bártulos', 'liar los bártulos': prepararse para partir, para mudarse, para emigrar.",
+    etymology: "Del nombre propio Bártolo de Sassoferrato, jurista italiano del siglo XIV (1313-1357) cuyas obras de Derecho eran lectura obligada y permanente consulta para estudiantes, juristas y peritos durante la Baja Edad Media y el Renacimiento. Estos hombres de leyes acarreaban siempre sus libros de Bártolo en sus arcones, alforjas y bolsas. De ahí que 'los bártulos' pasara a designar genéricamente los objetos que uno lleva consigo de un lado a otro.",
+    aura: "Palabra que carga historia medieval. Un bártulo original era un libro — objeto de conocimiento, herramienta de pensamiento. Luego se extendió a todos los enseres que viajan contigo. Tiene algo entrañable: nombra lo que llevamos cuando nos vamos, lo que es nuestro porque decidimos cargarlo. 'Liar los bártulos' suena a partida, a cambio, a vida en movimiento."
+  },
+  {
+    word: "Heurístico",
+    phonetic: "/eu̯.ɾˈís.ti.ko/",
+    category: "Adjetivo / Sustantivo f. (Heurística)",
+    date: "2026-05-28",
+    image: "",
+    meaning: "Perteneciente o relativo a la heurística. Técnica de la indagación y del descubrimiento; manera de buscar solución de un problema mediante métodos no rigurosos — por tanteo, reglas empíricas, aproximaciones sucesivas. Lo que funciona sin necesidad de demostración perfecta, por ensayo y error sistemático.",
+    etymology: "Del griego antiguo εὑρίσκειν (heurískein): hallar, inventar, descubrir. El pretérito perfecto de este verbo es 'eureka' — 'lo encontré'. La palabra llegó al latín medieval como heuristica y pasó al español como heurística. El sufijo -ístico viene del griego -ιστικός (istikós), que forma adjetivos expresando relación o pertenencia.",
+    aura: "Palabra que celebra el descubrimiento por el camino, no por la ruta prevista. Un método heurístico no promete perfección sino hallazgo. Tiene el aire de quien prueba, rectifica, avanza. Suena a pensamiento en movimiento, a la inteligencia que no espera tener todas las respuestas antes de actuar. Eureka es su grito hermano."
+  },
+  {
+    word: "Áncora",
+    phonetic: "/ˈan.ko.ɾa/",
+    category: "Sustantivo f.",
+    date: "2026-05-28",
+    image: "",
+    meaning: "Instrumento de hierro con harpones o uñas que se lanza al fondo del mar para sujetar y retener una embarcación en su posición. Por extensión figurada: aquello que sirve o puede servir de amparo en un peligro o infortunio — la 'áncora de salvación' en tiempos de tempestad.",
+    etymology: "Del latín ancŏra, y este del griego ἀγκυρα (anchyra). La palabra señala algo que 'agarra' — la raíz griega está emparentada con 'ankos' (ángulo, rincón). Lo que hunde sus garras en el fondo para mantener firme lo que flota. De ahí el sentido figurado: lo que nos sostiene cuando todo parece perderse.",
+    aura: "Palabra que habla de firmeza en medio del movimiento. Un barco sin áncora es esclavo de la marea; con ella, es dueño de su permanencia. Hay algo de salvación en la palabra — 'áncora de salvación' se dice de lo que nos sostiene en lo peor. Es un instrumento, sí, pero cargado de necesidad, de la urgencia de no perderse."
+  },
+  {
+    word: "Picapedrero",
+    phonetic: "/pi.ka.pe.ˈdɾe.ɾo/",
+    category: "Sustantivo m. y f.",
+    date: "2026-05-29",
+    image: "",
+    meaning: "Persona que tiene por oficio picar, labrar y extraer piedra de una cantera para la construcción o restauración de edificios. Maestro artesanal que trabaja la piedra con herramientas como picos, cinceles y martillos, dándole la forma exacta que requiere cada obra.",
+    etymology: "Formado por el verbo activo 'picar' + el sustantivo 'pedrero' (quien trabaja con piedras). Literalmente: quien pica piedra. El sufijo -ero denota ocupación y pertenencia. La palabra data de al menos 1604 en los diccionarios españoles, testimoniando una profesión de larga tradición en la construcción.",
+    aura: "Palabra que carga el oficio en su sonido. Un picapedrero no solo extrae piedra — la escucha, entiende dónde romperá, dónde cederá. Hay maestría en el gesto repetido: golpe, cincel, forma. Es la palabra de quien hace permanente lo que trabaja: los edificios que se levantan llevan sus golpes dentro."
+  },
+  {
+    word: "Batiscafo",
+    phonetic: "/ba.tis.ˈka.fo/",
+    category: "Sustantivo m.",
+    date: "2026-05-29",
+    image: "",
+    meaning: "Embarcación sumergible autopropulsada, especialmente diseñada para resistir grandes presiones, destinada a explorar las profundidades del mar. Vehículo tripulado que alcanza grandes profundidades con propulsión autónoma y se utiliza para fines militares o científicos.",
+    etymology: "Del francés bathyscaphe, y este del griego βαθύς (bathys: profundo) + σκαφή (skaphe: barco). Literalmente: 'barco profundo'. El cultismo fue creado en 1946 por el inventor suizo Auguste Piccard (1884-1962), quien realizó la primera inmersión en 1948 en aguas del archipiélago de Cabo Verde. La RAE lo incorporó en su edición de 1970.",
+    aura: "Palabra que suena a frontera. Un batiscafo es lo que baja donde no se ve, donde la presión destruiría cualquier cosa frágil. Tiene la solemnidad de los nombres técnicos que exploran lo desconocido. Sugiere aventura disciplinada, ciencia que se atreve a descender. La mitad de su nombre promete profundidad; la otra mitad, navegación posible."
+  },
+  {
+    word: "Prognosis",
+    phonetic: "/pɾoɡˈno.sis/",
+    category: "Sustantivo f.",
+    date: "2026-05-29",
+    image: "",
+    meaning: "Conocimiento anticipado de algún suceso. En medicina: juicio que forma el médico respecto a los cambios que pueden sobrevenir durante el curso de una enfermedad, y sobre su duración y terminación. Predicción del curso probable de una enfermedad o condición.",
+    etymology: "Del latín tardío prognōsis, y este del griego πρόγνωσις (prógnōsis), de προ- (pro-: ante, delante) + γνῶσις (gnôsis: conocimiento). Literalmente: 'conocimiento de antemano'. Término técnico de largo abolengo: aparecía ya en Hipócrates (siglo V a.C.). Pasó al latín tardío y fue reintroducido como cultismo moderno en 1917 en la RAE.",
+    aura: "Palabra de incertidumbre disciplinada. Una prognosis no es adivinanza sino evaluación sistemática: el médico observa síntomas pasados y presentes para leer los futuros. Hay algo casi oracular en ella, pero amparado por la ciencia. Es la manera médica de decir 'esto probablemente pasará', con el peso de la experiencia acumulada detrás."
+  },
+  {
+    word: "Esguince",
+    phonetic: "/es.ˈɡin.se/",
+    category: "Sustantivo m.",
+    date: "2026-05-30",
+    image: "",
+    meaning: "Torcedura brusca y dolorosa de una articulación, de carácter menos grave que la luxación. También: ademán hecho con el cuerpo, hurtándolo y torciéndolo para evitar un golpe o una caída. Gesto con que se demuestra disgusto o desdén.",
+    etymology: "Del latín vulgar exquintiāre (desgarrar), compuesto por ex- + quintus (quinto). La palabra evolucionó probablemente desde el catalán esquinç. Originalmente significaba 'rasgar', 'desgarrar' — de ahí la idea de algo que se tuerce, se rasga en la articulación. Documentado desde 1610 en Góngora (desguince) y 1613 en Cervantes (esguince). El término pasó del vocabulario médico al popular, posiblemente gracias a los deportistas de los últimos siglos.",
+    aura: "Palabra que nombra el gesto involuntario, el movimiento brusco que duele. Un esguince no es solo una lesión sino el acto de torcerse — hay algo dinámico en ello. De ahí que tambié signifique el quiebro del cuerpo para evitar un golpe, o el gesto de desdén. Siempre sugiere una torsión, una desviación de lo recto. Suena a dolor momentáneo, a esa fracción de segundo donde el cuerpo se retuerce contra su naturaleza."
+  },
+  {
+    word: "Certidumbre",
+    phonetic: "/θeɾ.ti.ˈdum.bɾe/",
+    category: "Sustantivo f.",
+    date: "2026-05-30",
+    image: "",
+    meaning: "Conocimiento seguro y claro de algo. Certeza, convicción, convencimiento de que algo es verdadero. La sensación de estar completamente seguro, sin duda ni vacilación. Opuesto a la incertidumbre.",
+    etymology: "Del latín tardío certitūdo, -ĭnis, derivado del adjetivo certus (cierto, seguro). La raíz latina remonta a una raíz indoeuropea relacionada con 'separar, discernir' — la idea de que lo cierto es lo que se puede discernir claramente. Documentada desde 1495 en el Vocabulario español-latino. Sinónima de certeza, aunque con matices de mayor plenitud y solidez.",
+    aura: "Palabra que suena a piedra firme en medio de la niebla. Una certidumbre es no solo saber sino tener la seguridad de que se sabe — hay tranquilidad en ella, reposo. Mientras la certeza puede ser intelectual, la certidumbre es una posesión, una ocupación del ánimo. Palabra que calma: 'tengo la certidumbre de que...'. Es lo opuesto al vértigo de la duda."
+  },
+  {
+    word: "Hiato",
+    phonetic: "/ˈja.to/",
+    category: "Sustantivo m.",
+    date: "2026-05-31",
+    image: "",
+    meaning: "En fonética: secuencia de dos vocales que se pronuncian en sílabas distintas (leer, país, caer). Significado general: solución de continuidad, interrupción o separación espacial o temporal; hendidura, fisura. La contrario al diptongo.",
+    etymology: "Del latín hiātus, participio del verbo hiāre (abrir, bostezar, entreabrirse). La raíz se remonta a la protoindoeuropea *ghe- (tener la boca abierta, bostezar). Originalmente significaba literalmente 'apertura', 'separación'. En lingüística, designa precisamente lo que su raíz implica: las vocales se separan, se abren en sílabas distintas.",
+    aura: "Palabra que habla de distancia, de lo que no se toca. Un hiato es una separación audible, un espacio entre sonidos que de otro modo estarían unidos. Tiene algo de silencio en ella — la pausa entre dos vocales. En poesía, el hiato es un recurso para alargar versos, crear espacio donde la métrica lo necesita. Es el gesto opuesto al abrazo fonético del diptongo."
+  },
+  {
+    word: "Diptongo",
+    phonetic: "/dip.ˈton.ɡo/",
+    category: "Sustantivo m.",
+    date: "2026-05-31",
+    image: "",
+    meaning: "En fonética: secuencia de dos vocales diferentes que se pronuncian en una sola sílaba (aire, puerta, viento, fui). Acción de pronunciar dos vocales como si fueran una, en una única emisión de voz.",
+    etymology: "Del latín diphthongus, y este del griego δίφθογγος (diphthongos), compuesto de δι- (di-: dos) + φθόγγος (phthongos: sonido). Literalmente: 'doble sonido' o 'dos sonidos'. El término lleva incorporada su propia descripción: dos sonidos que actúan como uno.",
+    aura: "Palabra que celebra la fusión. Un diptongo es dos vocales que se abrazan en una única sílaba, que viajan juntas en un solo impulso de voz. Hay algo íntimo en ello — la unión tan cerrada que se vuelve indivisible. Es el gesto opuesto al hiato. Donde el hiato dice 'separación', el diptongo responde 'unidad'. Juntos, definen los dos modos en que las vocales pueden encontrarse."
+  },
+  {
+    word: "Celibato",
+    phonetic: "/θe.li.ˈba.to/",
+    category: "Sustantivo m.",
+    date: "2026-05-31",
+    image: "",
+    meaning: "Soltería, especialmente la de quien ha hecho voto de castidad. Estado de quien no se ha casado, frecuentemente asociado a votos religiosos o compromisos de abstinencia. Puede ser también una opción filosófica, religiosa o social.",
+    etymology: "Del latín caelibatus (estado de soltería), derivado de caelebs (soltero). La etimología última del latín caelebs es disputada: algunos la vinculan al sánscrito kevalah (solo, entero), otros al griego koilos (hueco, vacío), y hay quienes la consideran una palabra de origen no indoeuropeo, de fondo léxico anterior. La morfología latina es clara, pero su raíz profunda permanece incierta.",
+    aura: "Palabra cargada de contradicción: nombra ausencia pero con presencia institucional. El celibato no es simplemente no casarse — es elegir no casarse, frecuentemente con un voto solemne. Tiene solemnidad de sacrificio, aunque sea voluntario. En la tradición católica suena a renunciamiento; en otros contextos, a libertad. Palabra que define tanto lo que se rechaza como lo que se elige — ambos lados del mismo acto."
+  },
+  {
+    word: "Abscisa",
+    phonetic: "/ab.ˈθi.sa/",
+    category: "Sustantivo f.",
+    date: "2026-06-01",
+    image: "",
+    meaning: "En geometría analítica: coordenada horizontal en un sistema de coordenadas cartesianas, expresada como la distancia entre un punto y el eje vertical. Generalmente representada por la letra x. Junto con la ordenada (eje y), determina la posición de un punto en el plano.",
+    etymology: "Del latín abscissa (cortada), participio femenino pasivo del verbo scindere (cortar, separar). Literalmente: 'la línea cortada'. El término fue usado ya por Fibonacci en 1220 en 'De Practica Geometrie', aunque se popularizó con René Descartes en la creación de la geometría analítica en el siglo XVII. La palabra porta en sí su significado: es la línea que 'corta' la distancia horizontal desde el origen.",
+    aura: "Palabra que suena a precisión matemática pero carga un gesto primitivo — 'cortar'. Una abscisa es un corte medido, una distancia transformada en número. Tiene algo de cartesiano en ella: el acto de poner orden al espacio mediante divisiones. Junto a la ordenada, es hermana gemela — ambas cortadas, ambas necesarias para que el plano tenga sentido y cada punto encuentre su lugar inequívoco."
+  },
+  {
+    word: "Idilio",
+    phonetic: "/i.ˈdi.ljo/",
+    category: "Sustantivo m.",
+    date: "2026-06-01",
+    image: "",
+    meaning: "Relación sentimental muy feliz, caracterizada por la idealización del otro y la ausencia de conflictos. En literatura: composición poética breve, dialogada, de tema amoroso y carácter pastoril, cuya acción transcurre en un entorno agradable con pastores o campesinos como protagonistas.",
+    etymology: "Del latín idyllĭum, que procede del griego εἰδύλλιον (eidyllion), que significa 'poema breve'. El subgénero fue creado por el poeta siciliano Teócrito en el siglo III a.C., quien escribía coloquios amorosos entre pastores en paisajes bucólicos. De ahí pasó a toda la tradición pastoril de la literatura occidental — Virgilio, Garcilaso de la Vega, Montemayor y otros lo imitaron.",
+    aura: "Palabra que carga la contradicción entre lo ideal y lo real. Un idilio es un romance perfecto, pero se sabe que es temporal — la etapa del enamoramiento donde el otro es idealizado, sin defectos visibles. En poesía, es el mundo bucólico de los pastores, ameno y paradisíaco. Hay algo melancólico en la palabra: nombra la perfección consciente de que no durará. Es el momento antes de que la realidad rompa la ilusión."
+  },
+  {
+    word: "Laticinio",
+    phonetic: "/la.ti.ˈθi.njo/",
+    category: "Sustantivo m.",
+    date: "2026-06-02",
+    image: "",
+    meaning: "Producto comestible derivado de la leche, como queso, mantequilla, nata, yogur, etc. También: la industria o comercio de productos lácteos. En plural: los productos que integran el grupo de los alimentos derivados de la leche.",
+    etymology: "Del latín lacticinium, derivado de lac, lactis (leche). La estructura es lac (leche) + -icinium (sufijo latino que denota oficio, profesión o producto). El término llegó al español y portugués desde el latín tardío, posiblemente en torno al siglo XVIII, conservando su etimología pura: todo aquello que se hace de la leche.",
+    aura: "Palabra que suena a industria, a lo cotidiano domesticado. Un laticinio no es la leche sino lo que la leche se convierte en manos del tiempo y la técnica — queso envejecido, mantequilla batida, yogur fermentado. Hay algo de transformación alquímica en ella. La palabra es funcional, comercial, pero carga toda la historia de la ganadería y la conservación. Es también plural: los laticínios, las cosas derivadas, lo múltiple que surge de lo único."
+  },
+  {
+    word: "Elucubrar",
+    phonetic: "/e.lu.ku.ˈbɾaɾ/",
+    category: "Verbo activo transitivo",
+    date: "2026-06-02",
+    image: "",
+    meaning: "Elaborar pensamientos profundos o imaginaciones, generalmente sin mucho fundamento. Trabajar velando y con aplicación e intensidad en obras de ingenio. Cavilar, reflexionar, devanarse los sesos. Frecuentemente usado con matiz despectivo para indicar superficialidad.",
+    etymology: "Del latín elucubrāre, que es un prefijado de lucubrāre. Lucubrāre procede de lucubrum (lamparita pequeña para alumbrarse de noche), formado con lux (luz). Literalmente: trabajar a la luz de la noche. Comparte raíz con palabras como luz, lumbre, luna, lúcido. La variante más antigua es lucubrar (documentada desde 1658), mientras que elucubrar fue admitida por la Academia recién en 1984.",
+    aura: "Palabra que carga la nocturnidad en sí misma. Elucubrar es trabajar a la luz de la noche — cuando todo está silencioso y el pensamiento se vuelve intenso pero sin garantía de verdad. Hay algo de vigilia en ella, de insomnio intelectual. Por eso la palabra frecuentemente carga desdén: elucubrar suena a pensamiento que divaga, que se pierde en sus propias vueltas sin llegar a puerto. Es el verbo de quien mira al fuego a altas horas, imaginando soluciones que quizá no existan."
+  },
+  {
+    word: "Véspero",
+    phonetic: "/ˈbes.pe.ɾo/",
+    category: "Sustantivo m.",
+    date: "2026-05-12",
+    image: "https://images.unsplash.com/photo-1531366936337-7c912a4589a7?w=900&q=80",
+    meaning: "El lucero vespertino; el planeta Venus cuando aparece en el cielo occidental al atardecer. Por extensión, la tarde misma — ese instante de transición entre la luz del día y la oscuridad de la noche.",
+    etymology: "Del latín Vesper, y este del griego Ἕσπερος (Hésperos), dios del lucero vespertino. Comparte raíz con Hesperia —el nombre poético de las tierras del oeste, donde el sol muere—. La misma estrella al amanecer se llamaba Fósforo: el portador de luz.",
+    aura: "Convoca el umbral. Ese momento exacto en que el cielo no es ni azul ni negro. Una palabra que sabe a silencio ganado, a algo que termina con dignidad."
+  },
+  {
+    word: "Quimera",
+    phonetic: "/ki.ˈme.ɾa/",
+    category: "Sustantivo f.",
+    date: "2026-05-12",
+    image: "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80",
+    meaning: "Sueño o proyecto que se persigue sabiendo, en el fondo, que no puede realizarse. Ilusión fabricada por el deseo que la razón desmiente pero que el ánimo no abandona.",
+    etymology: "Del griego Χίμαιρα (Khímaira): monstruo mitológico con cabeza de león, cuerpo de cabra y cola de serpiente, que escupía fuego. Lo imposible de su forma —tres naturalezas en una— pasó a significar todo lo que la imaginación construye contra lo real.",
+    aura: "Tiene algo de valiente. No es solo el sueño imposible — es la terquedad de seguir soñándolo. Toda empresa que valga la pena empieza siendo una quimera."
+  }
+];
+
+function load() {
+  try { const r = localStorage.getItem(KEY); if (r) return JSON.parse(r); } catch(e) {}
+  return JSON.parse(JSON.stringify(seed));
+}
+function save(d) { try { localStorage.setItem(KEY, JSON.stringify(d)); } catch(e) {} }
+
+function fmt(str) {
+  if (!str) return '';
+  const [y,m,d] = str.split('-');
+  const ms = ['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
+  return `${parseInt(d)} ${ms[parseInt(m)-1]} ${y}`;
+}
+
+// ── TREE GEOMETRY ──
+const SVGNS = 'http://www.w3.org/2000/svg';
+
+function trunkGeo() {
+  const W = window.innerWidth, H = window.innerHeight;
+  return { x: W * 0.5, base: H * 1.05, top: H * 0.12 };
+}
+
+// Punto sobre el tronco; p=0 base, p=1 copa
+function trunkPt(p) {
+  const g = trunkGeo();
+  const lean = Math.sin(p * Math.PI * 0.85) * (window.innerWidth * 0.022);
+  return { x: g.x + lean, y: g.base - (g.base - g.top) * p };
+}
+
+// ── TREE LAYOUT ──
+// Las palabras cuelgan como hojas al final de ramas que brotan del tronco
+// a distintas alturas, alternando lados. Más abajo = ramas largas y abiertas;
+// más arriba = ramas cortas y verticales.
+function computePositions(words) {
+  const W = window.innerWidth, H = window.innerHeight;
+  const n = words.length;
+  if (n === 0) return [];
+
+  const lo = 0.16, hi = 0.94;
+  const positions = [];
+
+  for (let i = 0; i < n; i++) {
+    const frac = n === 1 ? 0.6 : i / (n - 1);
+    const attachP = lo + (hi - lo) * frac;
+    const a = trunkPt(attachP);
+    const side = (i % 2 === 0) ? -1 : 1;
+
+    // variación determinista (estable entre renders)
+    const v = (((i * 53) % 17) / 17) - 0.5;
+
+    const angle = 0.16 + attachP * 0.55 + v * 0.10;       // sube con la altura
+    const len = W * (0.30 - attachP * 0.13) * (1 + v * 0.18);
+
+    let x = a.x + side * Math.cos(angle) * len;
+    let y = a.y - Math.sin(angle) * len;
+
+    // mantener dentro de pantalla
+    const mX = 95, mTop = 70, mBot = H * 0.88;
+    x = Math.max(mX, Math.min(W - mX, x));
+    y = Math.max(mTop, Math.min(mBot, y));
+
+    positions.push({ x, y, attachX: a.x, attachY: a.y, attachP, side });
+  }
+  return positions;
+}
+
+// ── DRAW TREE (SVG) ──
+function drawBranches(positions) {
+  const svg = document.getElementById('tree-svg');
+  svg.innerHTML = '';
+
+  // Tronco con grosor decreciente (segmentos)
+  const segs = 18;
+  for (let s = 0; s < segs; s++) {
+    const p0 = s / segs, p1 = (s + 1) / segs;
+    const a = trunkPt(p0), b = trunkPt(p1);
+    const seg = document.createElementNS(SVGNS, 'line');
+    seg.setAttribute('x1', a.x); seg.setAttribute('y1', a.y);
+    seg.setAttribute('x2', b.x); seg.setAttribute('y2', b.y);
+    seg.setAttribute('stroke', '#83663f');
+    seg.setAttribute('stroke-width', String(15 * (1 - p0) + 2.4 * p0));
+    seg.setAttribute('stroke-linecap', 'round');
+    seg.setAttribute('opacity', '0.85');
+    svg.appendChild(seg);
+  }
+
+  // Ramas hacia cada hoja
+  positions.forEach((pos, i) => {
+    const ax = pos.attachX, ay = pos.attachY;
+    const tx = pos.x, ty = pos.y;
+
+    // la rama sale del tronco, se curva y sube hacia la hoja
+    const c1x = ax + (tx - ax) * 0.20;
+    const c1y = ay - (ay - ty) * 0.55;
+    const c2x = ax + (tx - ax) * 0.65;
+    const c2y = ty + (ay - ty) * 0.10;
+    const d = `M ${ax} ${ay} C ${c1x} ${c1y}, ${c2x} ${c2y}, ${tx} ${ty}`;
+
+    const path = document.createElementNS(SVGNS, 'path');
+    path.setAttribute('d', d);
+    path.setAttribute('stroke', '#a0814f');
+    path.setAttribute('stroke-width', String(5.2 - pos.attachP * 3.0));
+    path.setAttribute('stroke-linecap', 'round');
+    path.setAttribute('fill', 'none');
+    path.setAttribute('opacity', '0.8');
+
+    // animación de crecimiento
+    const len = 520;
+    path.style.strokeDasharray = len;
+    path.style.strokeDashoffset = len;
+    path.style.transition = `stroke-dashoffset 1s ease ${0.15 + i * 0.1}s`;
+    svg.appendChild(path);
+    requestAnimationFrame(() => { path.style.strokeDashoffset = '0'; });
+  });
+
+  // pequeños brotes en la punta de cada rama
+  positions.forEach(pos => {
+    const circle = document.createElementNS(SVGNS, 'circle');
+    circle.setAttribute('cx', pos.x);
+    circle.setAttribute('cy', pos.y);
+    circle.setAttribute('r', '3');
+    circle.setAttribute('fill', '#9e8a5e');
+    circle.setAttribute('opacity', '0.45');
+    svg.appendChild(circle);
+  });
+}
+
+// ── RENDER TREE ──
+let data = load();
+
+function renderTree() {
+  const container = document.getElementById('tree-container');
+  container.innerHTML = '';
+
+  const W = window.innerWidth, H = window.innerHeight;
+  const g = trunkGeo();
+
+  // Etiqueta cerca de la base del tronco
+  const root = document.createElement('div');
+  root.className = 'root-node';
+  root.style.left = g.x + 'px';
+  root.style.top = (H * 0.93) + 'px';
+  root.innerHTML = `<div class="root-label">herbario</div>`;
+  container.appendChild(root);
+
+  if (data.length === 0) {
+    drawBranches([]);
+    document.getElementById('site-count').textContent = '';
+    return;
+  }
+
+  const positions = computePositions(data);
+  drawBranches(positions);
+
+  data.forEach((item, i) => {
+    if (!positions[i]) return;
+    const node = document.createElement('div');
+    node.className = 'word-node';
+    node.style.left = positions[i].x + 'px';
+    node.style.top  = positions[i].y + 'px';
+    node.style.animationDelay = `${i * 0.1}s`;
+    node.innerHTML = `
+      <div class="leaf">
+        <span class="leaf-word">${item.word}</span>
+        <span class="leaf-cat">${item.category || ''}</span>
+      </div>`;
+    node.addEventListener('click', () => openPanel(item));
+    container.appendChild(node);
+
+    // Entrance animation
+    node.style.opacity = '0';
+    node.style.transform = 'translate(-50%, -50%) scale(0.7)';
+    setTimeout(() => {
+      node.style.transition = 'opacity 0.5s ease, transform 0.5s cubic-bezier(0.34,1.56,0.64,1)';
+      node.style.opacity = '1';
+      node.style.transform = 'translate(-50%, -50%) scale(1)';
+    }, 80 + i * 100);
+  });
+
+  document.getElementById('site-count').textContent =
+    data.length === 1 ? '1 palabra' : `${data.length} palabras`;
+}
+
+// ── DETAIL PANEL ──
+function openPanel(item) {
+  document.getElementById('panel-word').textContent = item.word;
+  document.getElementById('panel-phonetic').textContent = item.phonetic || '';
+  document.getElementById('panel-cat').textContent = item.category || '';
+  document.getElementById('panel-date').textContent = fmt(item.date);
+  document.getElementById('panel-meaning').textContent = item.meaning || '';
+  document.getElementById('panel-etym').textContent = item.etymology || '';
+  document.getElementById('panel-aura').textContent = item.aura || '';
+
+  // Toggle blocks
+  document.getElementById('panel-meaning-block').style.display = item.meaning ? '' : 'none';
+  document.getElementById('panel-etym-block').style.display = item.etymology ? '' : 'none';
+  document.getElementById('panel-aura-block').style.display = item.aura ? '' : 'none';
+
+  // Image
+  const imgWrap = document.getElementById('panel-image-wrap');
+  const img = document.getElementById('panel-image');
+  if (item.image) {
+    img.src = item.image;
+    imgWrap.style.display = '';
+  } else {
+    imgWrap.style.display = 'none';
+  }
+
+  document.getElementById('detail-panel').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+  document.getElementById('detail-panel').scrollTop = 0;
+}
+
+function closePanel() {
+  document.getElementById('detail-panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+// ── ADD FORM ──
+function openForm() {
+  document.getElementById('form-panel').classList.add('open');
+  document.getElementById('overlay').classList.add('visible');
+}
+
+function closeForm() {
+  document.getElementById('form-panel').classList.remove('open');
+  document.getElementById('overlay').classList.remove('visible');
+}
+
+function closeAll() {
+  closePanel();
+  closeForm();
+}
+
+function submitWord() {
+  const word = document.getElementById('inp-word').value.trim();
+  if (!word) return;
+  const entry = {
+    word,
+    phonetic: document.getElementById('inp-phonetic').value.trim(),
+    category: document.getElementById('inp-cat').value.trim() || 'Palabra',
+    date: document.getElementById('inp-date').value || new Date().toISOString().split('T')[0],
+    image: document.getElementById('inp-image').value.trim(),
+    meaning: document.getElementById('inp-meaning').value.trim(),
+    etymology: document.getElementById('inp-etym').value.trim(),
+    aura: document.getElementById('inp-aura').value.trim()
+  };
+  data.push(entry);
+  save(data);
+  closeForm();
+  ['inp-word','inp-phonetic','inp-cat','inp-image','inp-meaning','inp-etym','inp-aura'].forEach(id => document.getElementById(id).value = '');
+  document.getElementById('inp-date').value = new Date().toISOString().split('T')[0];
+  renderTree();
+}
+
+// ── INIT ──
+document.getElementById('inp-date').value = new Date().toISOString().split('T')[0];
+renderTree();
+
+window.addEventListener('resize', () => {
+  clearTimeout(window._resizeTimer);
+  window._resizeTimer = setTimeout(renderTree, 150);
+});
+</script>
+</body>
+</html>
