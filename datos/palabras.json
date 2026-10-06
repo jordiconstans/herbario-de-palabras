@@ -11,7 +11,7 @@
   },
   {
     "palabra": "Quimera",
-    "fonetica": "/ki.ˈme.ɾa/",
+    "fonetica": "/kiˈme.ɾa/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-12",
     "imagen": "https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=900&q=80",
@@ -21,7 +21,7 @@
   },
   {
     "palabra": "Cariz",
-    "fonetica": "/kaˈɾiθ/",
+    "fonetica": "/kaˈɾis/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-13",
     "significado": "Aspecto o semblante que presenta algo, especialmente cuando anuncia un giro inminente. Se usa casi siempre para indicar que las cosas están tomando una dirección nueva —generalmente inquietante.",
@@ -48,7 +48,7 @@
   },
   {
     "palabra": "Artesiano",
-    "fonetica": "/aɾ.te.ˈsja.no/",
+    "fonetica": "/aɾ.teˈsja.no/",
     "categoria": "Adjetivo / Sustantivo m.",
     "fecha": "2026-05-16",
     "significado": "Pozo artesiano: perforación profunda donde el agua brota por presión subterránea, sin necesidad de bomba. Por extensión: fuente que surge naturalmente del interior sin esfuerzo externo; lo que fluye desde adentro.",
@@ -57,16 +57,16 @@
   },
   {
     "palabra": "Artefacto",
-    "fonetica": "/aɾ.te.ˈfak.to/",
+    "fonetica": "/aɾ.teˈfak.to/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-20",
     "significado": "Objeto fabricado por la mano humana, especialmente uno de valor arqueológico o histórico. También: cualquier cosa hecha artificialmente, construida deliberadamente — todo lo que no es natural sino manufacturado.",
-    "etimologia": "Del latín artefactum, de ars (arte, oficio) + factum (hecho, fabricado). La raíz es la misma de 'artificio' y 'artificial'. En origen, simplemente: lo hecho con arte, con técnica. Luego pasó a significar lo viejo y rescatable, lo que el tiempo vuelve enigmático.",
+    "etimologia": "De la expresión latina arte factus: 'hecho con arte', de ars (arte, oficio) + factus (hecho). La raíz es la misma de 'artificio' y 'artificial'. En origen, simplemente: lo hecho con arte, con técnica. Luego pasó a significar lo viejo y rescatable, lo que el tiempo vuelve enigmático.",
     "aura": "Palabra que ve las cosas con curiosidad arqueológica. Un artefacto no es solo una cosa — es algo que alguien hizo, que funcionó, que ahora nos mira desde el pasado. Carga la idea de que toda fabricación es un acto de intención que sobrevive."
   },
   {
     "palabra": "Hipérbole",
-    "fonetica": "/i.ˈpɛɾ.bo.le/",
+    "fonetica": "/iˈpeɾ.bo.le/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-21",
     "significado": "Exageración deliberada que busca enfatizar algo — decir más de lo que hay para que se entienda mejor lo que hay. No es mentira: es verdad amplificada. 'Te he dicho mil veces' no tiene mil, pero expresa la repetición insoportable.",
@@ -75,7 +75,7 @@
   },
   {
     "palabra": "Hipérbaton",
-    "fonetica": "/i.ˈpɛɾ.ba.ton/",
+    "fonetica": "/iˈpeɾ.ba.ton/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-21",
     "significado": "Alteración del orden sintáctico normal de las palabras en la oración. No es una omisión sino un desorden deliberado: cambiar el orden natural para crear énfasis, ritmo o extrañeza. 'De piedra, el corazón' en lugar de 'El corazón de piedra'.",
@@ -84,7 +84,7 @@
   },
   {
     "palabra": "Metáfora",
-    "fonetica": "/me.ˈta.fo.ɾa/",
+    "fonetica": "/meˈta.fo.ɾa/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-21",
     "significado": "Traslación del significado de una palabra a otro sentido distinto — decir que algo es algo que no es literalmente, pero que comparte esencia. No es comparación (que dice 'como'), sino identidad: 'eres fuego' en lugar de 'eres como fuego'.",
@@ -92,17 +92,17 @@
     "aura": "La metáfora es el cambio de significado que suena como verdad. No explica — revela. Cuando funciona, no parece figurado sino simplemente exacto. Es la forma en que el pensamiento viaja entre las cosas."
   },
   {
-    "palabra": "Infula",
-    "fonetica": "/inˈfu.la/",
+    "palabra": "Ínfula",
+    "fonetica": "/ˈin.fu.la/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-22",
-    "significado": "Banda, cinta o venda sagrada, especialmente la que portaban los sacerdotes romanos en ceremonias. Símbolo de autoridad ritual y consagración. Por extensión: cualquier distintivo que marca lo sagrado o lo separado.",
-    "etimologia": "Del latín infula: venda sacerdotal, cinta ritual. Posiblemente emparentada con 'fimbria' (fleco, borde). Era el atributo visible del poder sacro — no se podía ver autoridad, pero sí la cinta que la marcaba.",
+    "significado": "Banda, cinta o venda sagrada, especialmente la que portaban los sacerdotes romanos en ceremonias. Símbolo de autoridad ritual y consagración. En plural, 'ínfulas': presunción, vanidad — 'darse ínfulas' es comportarse como si uno llevara esa cinta sin tenerla.",
+    "etimologia": "Del latín infula: venda sacerdotal, cinta ritual. Era el atributo visible del poder sacro — no se podía ver la autoridad, pero sí la cinta que la marcaba. De ahí el plural figurado 'ínfulas': aires de importancia, pretensiones.",
     "aura": "Palabra antigua que carga solemnidad. Una infula no es solo un adorno — es un signo que dice 'esto es diferente, esto es sagrado'. Evoca ceremonias olvidadas donde lo ritual tenía peso físico."
   },
   {
     "palabra": "Ludita",
-    "fonetica": "/lu.ˈdi.ta/",
+    "fonetica": "/luˈdi.ta/",
     "categoria": "Adjetivo / Sustantivo com.",
     "fecha": "2026-05-23",
     "significado": "Persona que se opone a la nueva tecnología, especialmente por temor a que destruya empleos o formas de vida. En origen: miembro del movimiento obrero inglés que destruía maquinaria textil a principios del siglo XIX.",
@@ -111,11 +111,11 @@
   },
   {
     "palabra": "Poliedro",
-    "fonetica": "/po.liˈe.dɾo/",
+    "fonetica": "/poˈlje.dɾo/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-23",
     "significado": "Sólido geométrico limitado por varias caras planas (polígonos). En sentido figurado: lo que presenta múltiples aspectos o facetas, cada uno diferente, sin que uno sea el 'verdadero'.",
-    "etimologia": "Del griego πολύ (polí: muchos) + ἕδρα (hédrā: cara, faceta, asiento). Literalmente: 'muchas caras'. La misma estructura de 'multi' + 'cara' en latín. Cada cara es plana, pero el conjunto genera una forma tridimensional compleja.",
+    "etimologia": "Del griego πολύς (polýs: mucho) + ἕδρα (hédrā: cara, faceta, asiento). Literalmente: 'muchas caras'. La misma estructura de 'multi' + 'cara' en latín. Cada cara es plana, pero el conjunto genera una forma tridimensional compleja.",
     "aura": "Palabra que revela la multiplicidad sin contradicción. Un poliedro no es inconsistente — es exactamente consistente. Cada cara refleja la luz de manera distinta, pero todas pertenecen a la misma cosa. Para describir personas, ideas, situaciones que tienen varios lados y todos son reales."
   },
   {
@@ -129,7 +129,7 @@
   },
   {
     "palabra": "Persignarse",
-    "fonetica": "/peɾ.siɣˈnaɾ.se/",
+    "fonetica": "/peɾ.sigˈnaɾ.se/",
     "categoria": "Verbo pronominal",
     "fecha": "2026-05-24",
     "significado": "Hacerse la señal de la cruz, trazándola sobre la frente, la boca y el pecho. Por extensión coloquial: expresar asombro o alarma ante algo, como quien se santigua para protegerse.",
@@ -138,7 +138,7 @@
   },
   {
     "palabra": "Vigente",
-    "fonetica": "/biˈhen.te/",
+    "fonetica": "/biˈxen.te/",
     "categoria": "Adjetivo",
     "fecha": "2026-05-24",
     "significado": "Que está en vigor, que tiene fuerza legal o práctica en el presente. Lo que sigue vivo, activo, aplicable ahora. Opuesto a derogado, abolido, obsoleto.",
@@ -147,7 +147,7 @@
   },
   {
     "palabra": "Etcétera",
-    "fonetica": "/et.ˈθe.te.ɾa/",
+    "fonetica": "/etˈse.te.ɾa/",
     "categoria": "Sustantivo m. / Locución",
     "fecha": "2026-05-24",
     "significado": "Y lo demás, y lo restante. Palabra que indica que hay más cosas de la misma índole, pero que no se enumeran. El punto donde el hablante cesa de enumerar porque el patrón es obvio, porque le aburre, o porque lo que falta carece de importancia.",
@@ -156,61 +156,61 @@
   },
   {
     "palabra": "Marabunta",
-    "fonetica": "/ma.ɾa.ˈbun.ta/",
+    "fonetica": "/ma.ɾaˈbun.ta/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-25",
-    "significado": "Enjambre de hormigas soldado (especialmente Atta cephalotes) que invade territorio en masa, devorando todo a su paso. Por extensión: multitud desorganizada pero irresistible que arrasa, que avanza sin control. Ejército de lo pequeño que se vuelve potencia.",
-    "etimologia": "La etimología es disputada. Probablemente del africano (posiblemente yoruba o bantu), llegó al español a través de fuentes coloniales de América tropical. Algunos trazan una conexión al árabe 'marabito' (monje guerrero), pero sin certeza establecida. Lo que sí es claro: era ya palabra del español americano cuando describía esas invasiones de hormigas que los europeos vieron con horror y fascinación.",
+    "significado": "Migración masiva de hormigas legionarias (como las del género Eciton) que avanzan en columna devorando todo a su paso. Por extensión: multitud desorganizada pero irresistible que arrasa, que avanza sin control. Ejército de lo pequeño que se vuelve potencia.",
+    "etimologia": "Origen incierto. Es voz del español de América tropical; se ha propuesto un origen africano o indígena, pero ninguna hipótesis está demostrada. Se difundió ampliamente a mediados del siglo XX, en buena parte gracias al cine ('Cuando ruge la marabunta', 1954).",
     "aura": "Palabra que mira lo pequeño pero le da escala de invasión. Una marabunta es lo imposible de detener porque no hay un punto único donde atacar — es la masa. Suena a amenaza orgánica, a algo que viene de la tierra misma."
   },
   {
     "palabra": "Providencia",
-    "fonetica": "/pɾo.bi.ˈden.θja/",
+    "fonetica": "/pɾo.biˈden.sja/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-25",
     "significado": "Previsión, cuidado premeditado. Lo que se prevé o se cuida de antemano. En teología: el cuidado divino que ordena el mundo. En sentido coloquial: suerte, casualidad que parece diseñada, como si alguien invisible cuidara que las cosas salgan bien.",
-    "etimologia": "Del latín providentia: pro (adelante, antes) + videre (ver). Literalmente 'ver antes', 'ver de antemano'. La misma raíz de 'vidente' y 'evidente'. Providencia es la capacidad de prever, de cuidar lo que vendrá. En la Edad Media pasó a significar el cuidado de Dios sobre la creación.",
+    "etimologia": "Del latín providentia: pro (adelante, antes) + videre (ver). Literalmente 'ver antes', 'ver de antemano'. La misma raíz de 'vidente' y 'evidente'. Providencia es la capacidad de prever, de cuidar lo que vendrá. Los estoicos ya hablaban de una providencia que gobierna el mundo, y la tradición cristiana la hizo cuidado de Dios sobre la creación.",
     "aura": "Palabra que vive en la frontera entre lo divino y lo casual. Cuando algo funciona contra toda lógica y decimos 'fue providencia', estamos nombrando lo inexplicable como si fuera cuidado. Suena a alivio, a la certeza de que alguien — o algo — está mirando."
   },
   {
     "palabra": "Denante",
-    "fonetica": "/de.ˈnan.te/",
+    "fonetica": "/deˈnan.te/",
     "categoria": "Adverbio",
     "fecha": "2026-05-25",
     "significado": "Antes, en un tiempo inmediatamente anterior al presente. Palabra arcaica que denota prioridad de tiempo, especialmente un pasado reciente — no hace mucho, hace poco.",
-    "etimologia": "Del latín 'de in ante': literalmente 'de en antes'. Una construcción preposicional que evolucionó fonéticamente hasta la forma actual. Tuvo esplendor en el español medieval y clásico; hoy es desusada en la mayoría de países, pero se mantiene vigente en Chile y Bolivia.",
+    "etimologia": "Variante de 'denantes', formada por de + enantes ('antes'), y esta del latín in ante. Tuvo esplendor en el español medieval y clásico; hoy es desusada en la mayoría de países, pero sigue viva en el habla coloquial de Chile y otras zonas de América.",
     "aura": "Palabra que suena a tiempo medido con intimidad. No es el 'antes' genérico sino un antes cercano, reciente, que aún resuena. Arcaica pero no muerta — sigue viva en ciertos lugares, como aquellas cosas que se desvanecen pero no desaparecen."
   },
   {
     "palabra": "Divorcio",
-    "fonetica": "/di.ˈboɾ.sjo/",
+    "fonetica": "/diˈboɾ.sjo/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-26",
     "significado": "Disolución legal del vínculo matrimonial. Acción y efecto de divorciar o divorciarse. Por extensión figurada: separación de cosas o personas que estaban unidas, ruptura de una alianza o relación.",
-    "etimologia": "Del latín divortium: di- (separación, aparte) + vertere (girar, volver, dar la vuelta, apartarse). Literalmente: 'girar hacia lados opuestos', 'volver aparte'. En origen, los romanos usaban 'divortium' para designar incluso tierras separadas por un brazo de mar, donde cada orilla se dirigía hacia un lado opuesto. De ahí pasó a significar la separación conyugal: dos que vuelven la espalda uno al otro y cada cual toma su camino.",
+    "etimologia": "Del latín divortium: di- (separación, aparte) + vertere (girar, volver, dar la vuelta, apartarse). Literalmente: 'girar hacia lados opuestos', 'volver aparte'. Los romanos usaban 'divortium' también para el punto donde un camino se bifurca o donde las aguas se separan hacia vertientes opuestas (divortium aquarum). De ahí pasó a significar la separación conyugal: dos que vuelven la espalda uno al otro y cada cual toma su camino.",
     "aura": "Palabra legal pero cargada de dolor. No es simplemente una separación sino su formalización, el momento en que lo temporal se vuelve permanente por la ley. Tiene peso de finitud — marca un antes y un después que no pueden negociarse. Y subyace en su raíz esa imagen: dos personas que se dan la vuelta, se apartan, giran en direcciones opuestas."
   },
   {
     "palabra": "Escaque",
-    "fonetica": "/es.ˈka.ke/",
+    "fonetica": "/esˈka.ke/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-26",
     "significado": "Cada una de las casillas cuadradas, blancas y negras alternadamente, en que se divide el tablero de ajedrez y el del juego de damas. Por extensión: cualquier cuadrícula o división cuadrada de un patrón. En plural (escaques), también designa el juego del ajedrez.",
-    "etimologia": "Del árabe hispánico iššáh, este del árabe clásico as-šāh, y este del persa šāh (rey). La palabra persa 'shah' significa rey — la raíz que también aparece en 'jaque', 'jaque mate', 'ajedrez' y 'cheque'. Lo que comenzó nombrando al rey en persa terminó nombrando los cuadros de su tablero en español.",
+    "etimologia": "Voz emparentada con 'jaque', llegada a través del árabe hispánico desde el persa šāh (rey). De esa misma raíz real vienen 'jaque', 'jaque mate' y, por el juego, el inglés 'check' y 'cheque'. Lo que comenzó nombrando al rey en persa terminó nombrando los cuadros de su tablero en español. (El paso exacto de 'jaque' a 'escaque' es discutido.)",
     "aura": "Palabra que habla de orden y alternancia. Un escaque no es solo un espacio sino parte de un sistema simétrico: blanco y negro, luz y sombra, contrarios que necesitan uno al otro. Algo profundamente matemático, pero también estratégico — cada escaque es una posibilidad, una decisión."
   },
   {
     "palabra": "Gravitas",
-    "fonetica": "/ɡɾa.ˈβi.tas/",
+    "fonetica": "/ˈgɾa.bi.tas/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-27",
     "significado": "Seriedad, solemnidad y dignidad moral. Peso no físico sino espiritual — la sustancia de una persona o asunto. En la Roma antigua era una virtud cardinal, junto con pietas, dignitas y virtus: la capacidad de obrar con integridad, responsabilidad y rigor moral.",
-    "etimologia": "Del latín gravitas, formado a partir del adjetivo gravis (pesado, importante, grave). Esta raíz remonta a la protoindoeuropea gru-, que también da origen al griego barus (pesado), al sánscrito guru (maestro sagrado, grave, solemne) y a nuestras palabras grave, gravedad y gravamen. Lo pesado no es solo materia — es también autoridad moral, el peso de lo que importa.",
+    "etimologia": "Del latín gravitas, formado a partir del adjetivo gravis (pesado, importante, grave). Esta raíz remonta a la protoindoeuropea *gʷerh₂-, que también da origen al griego barýs (pesado), al sánscrito guru (maestro sagrado, grave, solemne) y a nuestras palabras grave, gravedad y gravamen. Lo pesado no es solo materia — es también autoridad moral, el peso de lo que importa.",
     "aura": "Palabra que conecta el peso físico con el peso moral. Un orador con gravitas no habla alto sino que hace silencio a su alrededor. Es lo opuesto al ruido. Tiene la resonancia de algo antiguo — de los romanos que creían que una virtud podía sostenerte como una columna sostiene un edificio."
   },
   {
     "palabra": "Contumaz",
-    "fonetica": "/kon.tu.ˈmaθ/",
+    "fonetica": "/kon.tuˈmas/",
     "categoria": "Adjetivo",
     "fecha": "2026-05-27",
     "significado": "Rebelde, porfiado y tenaz en mantener un error — que no ceja en una decisión pese a pedidos o argumentos razonables en sentido contrario. Que se niega a ceder, a doblegarse, a escuchar. Por extensión técnica: dicho de una materia o sustancia propia para retener y propagar gérmenes de contagio.",
@@ -219,7 +219,7 @@
   },
   {
     "palabra": "Impía",
-    "fonetica": "/im.ˈpi.a/",
+    "fonetica": "/imˈpi.a/",
     "categoria": "Adjetivo / Sustantivo f.",
     "fecha": "2026-05-27",
     "significado": "Falto de piedad, falta de religión, irrespetuosa con lo sagrado o lo religioso. Que carece de la virtud de la piedad o de fe. Contrario, hostil a la religión, a la devoción y al respeto.",
@@ -237,11 +237,11 @@
   },
   {
     "palabra": "Heurístico",
-    "fonetica": "/eu̯.ɾˈís.ti.ko/",
+    "fonetica": "/eu̯ˈɾis.ti.ko/",
     "categoria": "Adjetivo / Sustantivo f. (Heurística)",
     "fecha": "2026-05-28",
     "significado": "Perteneciente o relativo a la heurística. Técnica de la indagación y del descubrimiento; manera de buscar solución de un problema mediante métodos no rigurosos — por tanteo, reglas empíricas, aproximaciones sucesivas. Lo que funciona sin necesidad de demostración perfecta, por ensayo y error sistemático.",
-    "etimologia": "Del griego antiguo εὑρίσκειν (heurískein): hallar, inventar, descubrir. El pretérito perfecto de este verbo es 'eureka' — 'lo encontré'. La palabra llegó al latín medieval como heuristica y pasó al español como heurística. El sufijo -ístico viene del griego -ιστικός (istikós), que forma adjetivos expresando relación o pertenencia.",
+    "etimologia": "Del griego antiguo εὑρίσκειν (heurískein): hallar, inventar, descubrir. Su perfecto, εὕρηκα (héurēka), es el célebre 'eureka' — 'lo encontré'. La palabra llegó al latín medieval como heuristica y pasó al español como heurística. El sufijo -ístico viene del griego -ιστικός (istikós), que forma adjetivos expresando relación o pertenencia.",
     "aura": "Palabra que celebra el descubrimiento por el camino, no por la ruta prevista. Un método heurístico no promete perfección sino hallazgo. Tiene el aire de quien prueba, rectifica, avanza. Suena a pensamiento en movimiento, a la inteligencia que no espera tener todas las respuestas antes de actuar. Eureka es su grito hermano."
   },
   {
@@ -250,52 +250,52 @@
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-28",
     "significado": "Instrumento de hierro con harpones o uñas que se lanza al fondo del mar para sujetar y retener una embarcación en su posición. Por extensión figurada: aquello que sirve o puede servir de amparo en un peligro o infortunio — la 'áncora de salvación' en tiempos de tempestad.",
-    "etimologia": "Del latín ancŏra, y este del griego ἀγκυρα (anchyra). La palabra señala algo que 'agarra' — la raíz griega está emparentada con 'ankos' (ángulo, rincón). Lo que hunde sus garras en el fondo para mantener firme lo que flota. De ahí el sentido figurado: lo que nos sostiene cuando todo parece perderse.",
+    "etimologia": "Del latín ancŏra, y este del griego ἄγκυρα (ánkyra). La palabra señala algo que 'agarra' — la raíz griega se asocia a la idea de lo curvo, del gancho. Lo que hunde sus garras en el fondo para mantener firme lo que flota. De ahí el sentido figurado: lo que nos sostiene cuando todo parece perderse.",
     "aura": "Palabra que habla de firmeza en medio del movimiento. Un barco sin áncora es esclavo de la marea; con ella, es dueño de su permanencia. Hay algo de salvación en la palabra — 'áncora de salvación' se dice de lo que nos sostiene en lo peor. Es un instrumento, sí, pero cargado de necesidad, de la urgencia de no perderse."
   },
   {
     "palabra": "Picapedrero",
-    "fonetica": "/pi.ka.pe.ˈdɾe.ɾo/",
+    "fonetica": "/pi.ka.peˈdɾe.ɾo/",
     "categoria": "Sustantivo m. y f.",
     "fecha": "2026-05-29",
     "significado": "Persona que tiene por oficio picar, labrar y extraer piedra de una cantera para la construcción o restauración de edificios. Maestro artesanal que trabaja la piedra con herramientas como picos, cinceles y martillos, dándole la forma exacta que requiere cada obra.",
-    "etimologia": "Formado por el verbo activo 'picar' + el sustantivo 'pedrero' (quien trabaja con piedras). Literalmente: quien pica piedra. El sufijo -ero denota ocupación y pertenencia. La palabra data de al menos 1604 en los diccionarios españoles, testimoniando una profesión de larga tradición en la construcción.",
+    "etimologia": "Formado por el verbo activo 'picar' + el sustantivo 'pedrero' (quien trabaja con piedras). Literalmente: quien pica piedra. El sufijo -ero denota ocupación y pertenencia.",
     "aura": "Palabra que carga el oficio en su sonido. Un picapedrero no solo extrae piedra — la escucha, entiende dónde romperá, dónde cederá. Hay maestría en el gesto repetido: golpe, cincel, forma. Es la palabra de quien hace permanente lo que trabaja: los edificios que se levantan llevan sus golpes dentro."
   },
   {
     "palabra": "Batiscafo",
-    "fonetica": "/ba.tis.ˈka.fo/",
+    "fonetica": "/ba.tisˈka.fo/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-29",
     "significado": "Embarcación sumergible autopropulsada, especialmente diseñada para resistir grandes presiones, destinada a explorar las profundidades del mar. Vehículo tripulado que alcanza grandes profundidades con propulsión autónoma y se utiliza para fines militares o científicos.",
-    "etimologia": "Del francés bathyscaphe, y este del griego βαθύς (bathys: profundo) + σκαφή (skaphe: barco). Literalmente: 'barco profundo'. El cultismo fue creado en 1946 por el inventor suizo Auguste Piccard (1884-1962), quien realizó la primera inmersión en 1948 en aguas del archipiélago de Cabo Verde. La RAE lo incorporó en su edición de 1970.",
+    "etimologia": "Del francés bathyscaphe, y este del griego βαθύς (bathys: profundo) + σκαφή (skaphe: barco). Literalmente: 'barco profundo'. El nombre lo acuñó el físico suizo Auguste Piccard (1884-1962) para el vehículo con que exploró las profundidades marinas a fines de los años cuarenta.",
     "aura": "Palabra que suena a frontera. Un batiscafo es lo que baja donde no se ve, donde la presión destruiría cualquier cosa frágil. Tiene la solemnidad de los nombres técnicos que exploran lo desconocido. Sugiere aventura disciplinada, ciencia que se atreve a descender. La mitad de su nombre promete profundidad; la otra mitad, navegación posible."
   },
   {
     "palabra": "Prognosis",
-    "fonetica": "/pɾoɡˈno.sis/",
+    "fonetica": "/pɾogˈno.sis/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-29",
     "significado": "Conocimiento anticipado de algún suceso. En medicina: juicio que forma el médico respecto a los cambios que pueden sobrevenir durante el curso de una enfermedad, y sobre su duración y terminación. Predicción del curso probable de una enfermedad o condición.",
-    "etimologia": "Del latín tardío prognōsis, y este del griego πρόγνωσις (prógnōsis), de προ- (pro-: ante, delante) + γνῶσις (gnôsis: conocimiento). Literalmente: 'conocimiento de antemano'. Término técnico de largo abolengo: aparecía ya en Hipócrates (siglo V a.C.). Pasó al latín tardío y fue reintroducido como cultismo moderno en 1917 en la RAE.",
+    "etimologia": "Del latín tardío prognōsis, y este del griego πρόγνωσις (prógnōsis), de προ- (pro-: ante, delante) + γνῶσις (gnôsis: conocimiento). Literalmente: 'conocimiento de antemano'. Término técnico de largo abolengo: 'Pronóstico' es el título de uno de los tratados hipocráticos (siglos V-IV a.C.). Pasó al latín tardío y de ahí al español como cultismo.",
     "aura": "Palabra de incertidumbre disciplinada. Una prognosis no es adivinanza sino evaluación sistemática: el médico observa síntomas pasados y presentes para leer los futuros. Hay algo casi oracular en ella, pero amparado por la ciencia. Es la manera médica de decir 'esto probablemente pasará', con el peso de la experiencia acumulada detrás."
   },
   {
     "palabra": "Esguince",
-    "fonetica": "/es.ˈɡin.se/",
+    "fonetica": "/esˈgin.se/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-30",
     "significado": "Torcedura brusca y dolorosa de una articulación, de carácter menos grave que la luxación. También: ademán hecho con el cuerpo, hurtándolo y torciéndolo para evitar un golpe o una caída. Gesto con que se demuestra disgusto o desdén.",
-    "etimologia": "Del latín vulgar exquintiāre (desgarrar), compuesto por ex- + quintus (quinto). La palabra evolucionó probablemente desde el catalán esquinç. Originalmente significaba 'rasgar', 'desgarrar' — de ahí la idea de algo que se tuerce, se rasga en la articulación. Documentado desde 1610 en Góngora (desguince) y 1613 en Cervantes (esguince). El término pasó del vocabulario médico al popular, posiblemente gracias a los deportistas de los últimos siglos.",
-    "aura": "Palabra que nombra el gesto involuntario, el movimiento brusco que duele. Un esguince no es solo una lesión sino el acto de torcerse — hay algo dinámico en ello. De ahí que tambié signifique el quiebro del cuerpo para evitar un golpe, o el gesto de desdén. Siempre sugiere una torsión, una desviación de lo recto. Suena a dolor momentáneo, a esa fracción de segundo donde el cuerpo se retuerce contra su naturaleza."
+    "etimologia": "De esguinzar, y este del latín vulgar *exquintiare (desgarrar, rasgar). Originalmente significaba 'rasgar' — de ahí la idea de algo que se tuerce y se rasga en la articulación. El sentido del quiebro del cuerpo para esquivar un golpe es antiguo; el médico se impuso después.",
+    "aura": "Palabra que nombra el gesto involuntario, el movimiento brusco que duele. Un esguince no es solo una lesión sino el acto de torcerse — hay algo dinámico en ello. De ahí que también signifique el quiebro del cuerpo para evitar un golpe, o el gesto de desdén. Siempre sugiere una torsión, una desviación de lo recto. Suena a dolor momentáneo, a esa fracción de segundo donde el cuerpo se retuerce contra su naturaleza."
   },
   {
     "palabra": "Certidumbre",
-    "fonetica": "/θeɾ.ti.ˈdum.bɾe/",
+    "fonetica": "/seɾ.tiˈdum.bɾe/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-05-30",
     "significado": "Conocimiento seguro y claro de algo. Certeza, convicción, convencimiento de que algo es verdadero. La sensación de estar completamente seguro, sin duda ni vacilación. Opuesto a la incertidumbre.",
-    "etimologia": "Del latín tardío certitūdo, -ĭnis, derivado del adjetivo certus (cierto, seguro). La raíz latina remonta a una raíz indoeuropea relacionada con 'separar, discernir' — la idea de que lo cierto es lo que se puede discernir claramente. Documentada desde 1495 en el Vocabulario español-latino. Sinónima de certeza, aunque con matices de mayor plenitud y solidez.",
+    "etimologia": "Del latín tardío certitūdo, -ĭnis, derivado del adjetivo certus (cierto, seguro). La raíz latina remonta a una raíz indoeuropea relacionada con 'separar, discernir' — la idea de que lo cierto es lo que se puede discernir claramente. Sinónima de certeza, aunque con matices de mayor plenitud y solidez.",
     "aura": "Palabra que suena a piedra firme en medio de la niebla. Una certidumbre es no solo saber sino tener la seguridad de que se sabe — hay tranquilidad en ella, reposo. Mientras la certeza puede ser intelectual, la certidumbre es una posesión, una ocupación del ánimo. Palabra que calma: 'tengo la certidumbre de que...'. Es lo opuesto al vértigo de la duda."
   },
   {
@@ -303,62 +303,78 @@
     "fonetica": "/ˈja.to/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-31",
-    "significado": "En fonética: secuencia de dos vocales que se pronuncian en sílabas distintas (leer, país, caer). Significado general: solución de continuidad, interrupción o separación espacial o temporal; hendidura, fisura. La contrario al diptongo.",
+    "significado": "En fonética: secuencia de dos vocales que se pronuncian en sílabas distintas (leer, país, caer). Significado general: solución de continuidad, interrupción o separación espacial o temporal; hendidura, fisura. Lo contrario al diptongo.",
     "etimologia": "Del latín hiātus, participio del verbo hiāre (abrir, bostezar, entreabrirse). La raíz se remonta a la protoindoeuropea *ghe- (tener la boca abierta, bostezar). Originalmente significaba literalmente 'apertura', 'separación'. En lingüística, designa precisamente lo que su raíz implica: las vocales se separan, se abren en sílabas distintas.",
     "aura": "Palabra que habla de distancia, de lo que no se toca. Un hiato es una separación audible, un espacio entre sonidos que de otro modo estarían unidos. Tiene algo de silencio en ella — la pausa entre dos vocales. En poesía, el hiato es un recurso para alargar versos, crear espacio donde la métrica lo necesita. Es el gesto opuesto al abrazo fonético del diptongo."
   },
   {
     "palabra": "Diptongo",
-    "fonetica": "/dip.ˈton.ɡo/",
+    "fonetica": "/dipˈton.go/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-31",
     "significado": "En fonética: secuencia de dos vocales diferentes que se pronuncian en una sola sílaba (aire, puerta, viento, fui). Acción de pronunciar dos vocales como si fueran una, en una única emisión de voz.",
     "etimologia": "Del latín diphthongus, y este del griego δίφθογγος (diphthongos), compuesto de δι- (di-: dos) + φθόγγος (phthongos: sonido). Literalmente: 'doble sonido' o 'dos sonidos'. El término lleva incorporada su propia descripción: dos sonidos que actúan como uno.",
-    "aura": "Palabra que celebra la fusión. Un diptongo es dos vocales que se abrazan en una única sílaba, que viajan juntas en un solo impulso de voz. Hay algo íntimo en ello — la unión tan cerrada que se vuelve indivisible. Es el gesto opuesto al hiato. Donde el hiato dice 'separación', el diptongo responde 'unidad'. Juntos, definen los dos modos en que las vocales pueden encontrarse."
+    "aura": "Palabra que celebra la fusión. Un diptongo es dos vocales que se abrazan en una única sílaba, que viajan juntas en un solo impulso de voz. Hay algo íntimo en ello — la unión tan cerrada que se vuelve indivisible. Es el gesto opuesto al hiato. Donde el hiato dice 'separación', el diptongo responde 'unidad'. Juntos, definen los dos modos en que las vocales pueden encontrarse.",
+    "esencia": "la unión fonética más íntima"
   },
   {
     "palabra": "Celibato",
-    "fonetica": "/θe.li.ˈba.to/",
+    "fonetica": "/se.liˈba.to/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-05-31",
     "significado": "Soltería, especialmente la de quien ha hecho voto de castidad. Estado de quien no se ha casado, frecuentemente asociado a votos religiosos o compromisos de abstinencia. Puede ser también una opción filosófica, religiosa o social.",
     "etimologia": "Del latín caelibatus (estado de soltería), derivado de caelebs (soltero). La etimología última del latín caelebs es disputada: algunos la vinculan al sánscrito kevalah (solo, entero), otros al griego koilos (hueco, vacío), y hay quienes la consideran una palabra de origen no indoeuropeo, de fondo léxico anterior. La morfología latina es clara, pero su raíz profunda permanece incierta.",
-    "aura": "Palabra cargada de contradicción: nombra ausencia pero con presencia institucional. El celibato no es simplemente no casarse — es elegir no casarse, frecuentemente con un voto solemne. Tiene solemnidad de sacrificio, aunque sea voluntario. En la tradición católica suena a renunciamiento; en otros contextos, a libertad. Palabra que define tanto lo que se rechaza como lo que se elige — ambos lados del mismo acto."
+    "aura": "Palabra cargada de contradicción: nombra ausencia pero con presencia institucional. El celibato no es simplemente no casarse — es elegir no casarse, frecuentemente con un voto solemne. Tiene solemnidad de sacrificio, aunque sea voluntario. En la tradición católica suena a renunciamiento; en otros contextos, a libertad. Palabra que define tanto lo que se rechaza como lo que se elige — ambos lados del mismo acto.",
+    "esencia": "libertad o renunciamiento, según se mire"
   },
   {
     "palabra": "Abscisa",
-    "fonetica": "/ab.ˈθi.sa/",
+    "fonetica": "/absˈsi.sa/",
     "categoria": "Sustantivo f.",
     "fecha": "2026-06-01",
     "significado": "En geometría analítica: coordenada horizontal en un sistema de coordenadas cartesianas, expresada como la distancia entre un punto y el eje vertical. Generalmente representada por la letra x. Junto con la ordenada (eje y), determina la posición de un punto en el plano.",
-    "etimologia": "Del latín abscissa (cortada), participio femenino pasivo del verbo scindere (cortar, separar). Literalmente: 'la línea cortada'. El término fue usado ya por Fibonacci en 1220 en 'De Practica Geometrie', aunque se popularizó con René Descartes en la creación de la geometría analítica en el siglo XVII. La palabra porta en sí su significado: es la línea que 'corta' la distancia horizontal desde el origen.",
-    "aura": "Palabra que suena a precisión matemática pero carga un gesto primitivo — 'cortar'. Una abscisa es un corte medido, una distancia transformada en número. Tiene algo de cartesiano en ella: el acto de poner orden al espacio mediante divisiones. Junto a la ordenada, es hermana gemela — ambas cortadas, ambas necesarias para que el plano tenga sentido y cada punto encuentre su lugar inequívoco."
+    "etimologia": "Del latín abscissa (linea), 'línea cortada', participio femenino de abscindere (cortar, separar), de ab- + scindere (cortar). El término se generalizó en el siglo XVII con la geometría analítica. La palabra porta en sí su significado: es el segmento que se 'corta' sobre el eje horizontal desde el origen.",
+    "aura": "Palabra que suena a precisión matemática pero carga un gesto primitivo — 'cortar'. Una abscisa es un corte medido, una distancia transformada en número. Tiene algo de cartesiano en ella: el acto de poner orden al espacio mediante divisiones. Junto a la ordenada, es hermana gemela — ambas cortadas, ambas necesarias para que el plano tenga sentido y cada punto encuentre su lugar inequívoco.",
+    "esencia": "la línea que mapea el espacio invisible"
   },
   {
     "palabra": "Idilio",
-    "fonetica": "/i.ˈdi.ljo/",
+    "fonetica": "/iˈdi.ljo/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-06-01",
     "significado": "Relación sentimental muy feliz, caracterizada por la idealización del otro y la ausencia de conflictos. En literatura: composición poética breve, dialogada, de tema amoroso y carácter pastoril, cuya acción transcurre en un entorno agradable con pastores o campesinos como protagonistas.",
     "etimologia": "Del latín idyllĭum, que procede del griego εἰδύλλιον (eidyllion), que significa 'poema breve'. El subgénero fue creado por el poeta siciliano Teócrito en el siglo III a.C., quien escribía coloquios amorosos entre pastores en paisajes bucólicos. De ahí pasó a toda la tradición pastoril de la literatura occidental — Virgilio, Garcilaso de la Vega, Montemayor y otros lo imitaron.",
-    "aura": "Palabra que carga la contradicción entre lo ideal y lo real. Un idilio es un romance perfecto, pero se sabe que es temporal — la etapa del enamoramiento donde el otro es idealizado, sin defectos visibles. En poesía, es el mundo bucólico de los pastores, ameno y paradisíaco. Hay algo melancólico en la palabra: nombra la perfección consciente de que no durará. Es el momento antes de que la realidad rompa la ilusión."
+    "aura": "Palabra que carga la contradicción entre lo ideal y lo real. Un idilio es un romance perfecto, pero se sabe que es temporal — la etapa del enamoramiento donde el otro es idealizado, sin defectos visibles. En poesía, es el mundo bucólico de los pastores, ameno y paradisíaco. Hay algo melancólico en la palabra: nombra la perfección consciente de que no durará. Es el momento antes de que la realidad rompa la ilusión.",
+    "esencia": "la belleza de lo imaginado"
   },
   {
-    "palabra": "Laticinio",
-    "fonetica": "/la.ti.ˈθi.njo/",
+    "palabra": "Lacticinio",
+    "fonetica": "/lak.tiˈsi.njo/",
     "categoria": "Sustantivo m.",
     "fecha": "2026-06-02",
     "significado": "Producto comestible derivado de la leche, como queso, mantequilla, nata, yogur, etc. También: la industria o comercio de productos lácteos. En plural: los productos que integran el grupo de los alimentos derivados de la leche.",
-    "etimologia": "Del latín lacticinium, derivado de lac, lactis (leche). La estructura es lac (leche) + -icinium (sufijo latino que denota oficio, profesión o producto). El término llegó al español y portugués desde el latín tardío, posiblemente en torno al siglo XVIII, conservando su etimología pura: todo aquello que se hace de la leche.",
-    "aura": "Palabra que suena a industria, a lo cotidiano domesticado. Un laticinio no es la leche sino lo que la leche se convierte en manos del tiempo y la técnica — queso envejecido, mantequilla batida, yogur fermentado. Hay algo de transformación alquímica en ella. La palabra es funcional, comercial, pero carga toda la historia de la ganadería y la conservación. Es también plural: los laticínios, las cosas derivadas, lo múltiple que surge de lo único."
+    "etimologia": "Del latín lacticinium, derivado de lac, lactis (leche). En su origen: la leche y todo lo que se hace con ella. Pariente de 'lácteo', 'lactancia' y 'lechuga' (por su jugo blanco).",
+    "aura": "Palabra que suena a industria, a lo cotidiano domesticado. Un laticinio no es la leche sino lo que la leche se convierte en manos del tiempo y la técnica — queso envejecido, mantequilla batida, yogur fermentado. Hay algo de transformación alquímica en ella. La palabra es funcional, comercial, pero carga toda la historia de la ganadería y la conservación. Es también plural: los lacticinios, las cosas derivadas, lo múltiple que surge de lo único.",
+    "esencia": "manos que ordeñan y cuajan"
   },
   {
     "palabra": "Elucubrar",
-    "fonetica": "/e.lu.ku.ˈbɾaɾ/",
+    "fonetica": "/e.lu.kuˈbɾaɾ/",
     "categoria": "Verbo activo transitivo",
     "fecha": "2026-06-02",
     "significado": "Elaborar pensamientos profundos o imaginaciones, generalmente sin mucho fundamento. Trabajar velando y con aplicación e intensidad en obras de ingenio. Cavilar, reflexionar, devanarse los sesos. Frecuentemente usado con matiz despectivo para indicar superficialidad.",
-    "etimologia": "Del latín elucubrāre, que es un prefijado de lucubrāre. Lucubrāre procede de lucubrum (lamparita pequeña para alumbrarse de noche), formado con lux (luz). Literalmente: trabajar a la luz de la noche. Comparte raíz con palabras como luz, lumbre, luna, lúcido. La variante más antigua es lucubrar (documentada desde 1658), mientras que elucubrar fue admitida por la Academia recién en 1984.",
-    "aura": "Palabra que carga la nocturnidad en sí misma. Elucubrar es trabajar a la luz de la noche — cuando todo está silencioso y el pensamiento se vuelve intenso pero sin garantía de verdad. Hay algo de vigilia en ella, de insomnio intelectual. Por eso la palabra frecuentemente carga desdén: elucubrar suena a pensamiento que divaga, que se pierde en sus propias vueltas sin llegar a puerto. Es el verbo de quien mira al fuego a altas horas, imaginando soluciones que quizá no existan."
+    "etimologia": "Del latín elucubrāre, que es un prefijado de lucubrāre. Lucubrāre se relaciona con lux (luz): velar trabajando a la luz de una lámpara. Literalmente: trabajar a la luz de la noche. Comparte raíz con palabras como luz, lumbre, luna, lúcido. La variante más antigua es 'lucubrar'; 'elucubrar' es posterior y hoy la más usada.",
+    "aura": "Palabra que carga la nocturnidad en sí misma. Elucubrar es trabajar a la luz de la noche — cuando todo está silencioso y el pensamiento se vuelve intenso pero sin garantía de verdad. Hay algo de vigilia en ella, de insomnio intelectual. Por eso la palabra frecuentemente carga desdén: elucubrar suena a pensamiento que divaga, que se pierde en sus propias vueltas sin llegar a puerto. Es el verbo de quien mira al fuego a altas horas, imaginando soluciones que quizá no existan.",
+    "esencia": "vigilia mental hasta el agotamiento"
+  },
+  {
+    "palabra": "Baladí",
+    "fonetica": "/ba.laˈdi/",
+    "categoria": "Adjetivo",
+    "fecha": "2026-06-02",
+    "significado": "De poca importancia, insustancial, trivial. Se dice de lo que no merece mayor atención: 'una discusión baladí', 'un asunto baladí'.",
+    "etimologia": "Del árabe hispánico baladí, y este del árabe clásico baladī: 'del país, local, del lugar', derivado de balad (país, tierra). En al-Ándalus designaba lo producido en la tierra propia, frente a lo importado y apreciado; de 'lo de aquí, lo corriente' pasó a significar 'lo de poco valor'.",
+    "aura": "pendiente",
+    "esencia": "lo trivial nombrado sin desprecio"
   }
 ]

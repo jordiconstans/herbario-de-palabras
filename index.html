@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Herbario de Palabras</title>
+<meta name="description" content="Colección etimológica de palabras españolas con esencias poéticas.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Lora:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="estilos.css">
+</head>
+<body>
+
+<header class="cabecera">
+  <div>
+    <h1 class="titulo">Herbario de palabras</h1>
+    <p class="subtitulo">Colección etimológica de palabras españolas con esencias poéticas</p>
+  </div>
+  <div class="cabecera-der">
+    <span class="contador" id="contador"></span>
+    <button class="btn-indice" id="btn-indice" aria-expanded="false">índice</button>
+  </div>
+</header>
+
+<main id="bosque" aria-label="Árbol de palabras">
+  <svg id="arbol" xmlns="http://www.w3.org/2000/svg" role="group"></svg>
+</main>
+<div class="leyenda" aria-hidden="true">
+  <span class="sust">sustantivo</span><span class="adj">adjetivo</span><span class="verbo">verbo</span><span class="otra">otras</span>
+</div>
+
+<nav id="indice" class="indice" aria-label="Índice de palabras" hidden>
+  <ul id="indice-lista"></ul>
+</nav>
+
+<aside id="ficha" class="ficha" aria-hidden="true">
+  <button class="cerrar" id="cerrar" aria-label="Cerrar">✕</button>
+  <div class="ficha-cuerpo">
+    <div class="ficha-meta"><span id="f-cat"></span><span id="f-fecha"></span></div>
+    <h2 class="ficha-palabra" id="f-palabra"></h2>
+    <div class="ficha-fonetica" id="f-fonetica"></div>
+    <p class="ficha-esencia" id="f-esencia"></p>
+    <div class="regla"></div>
+    <section id="b-significado"><h3>Significado</h3><p id="f-significado"></p></section>
+    <section id="b-etimologia"><h3>Etimología</h3><p class="etim" id="f-etimologia"></p></section>
+    <section id="b-aura"><h3>Aura</h3><p class="aura" id="f-aura"></p></section>
+  </div>
+</aside>
+<div id="velo" class="velo"></div>
+
+<script src="arbol.js"></script>
+</body>
+</html>

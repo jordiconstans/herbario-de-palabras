@@ -1,0 +1,6 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    { "name": "herbario", "runtimeExecutable": "python", "runtimeArgs": ["-m", "http.server", "8420"], "port": 8420 }
+  ]
+}
