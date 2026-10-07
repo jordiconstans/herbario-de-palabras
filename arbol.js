@@ -4,6 +4,8 @@
 
 const SVGNS = 'http://www.w3.org/2000/svg';
 const ANCHO = 1000;
+// URL del buzón de propuestas (Google Apps Script). Vacía = sin propuestas.
+const PROPUESTAS_URL = '';
 const MESES = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
 
 // ── utilidades ──
@@ -40,11 +42,12 @@ function bez(a, c, b, t) {           // bezier cuadrática: punto y tangente
   };
 }
 
-function disenar(palabras) {
-  // ramas de hasta POR_RAMA palabras, en orden cronológico
+function disenar(palabras, brotes = []) {
+  // ramas de hasta POR_RAMA palabras, en orden cronológico; los brotes propuestos, en la copa
   const POR_RAMA = 6, PASO = 170;
   const grupos = [];
   for (let i = 0; i < palabras.length; i += POR_RAMA) grupos.push(palabras.slice(i, i + POR_RAMA));
+  for (let i = 0; i < brotes.length; i += POR_RAMA) grupos.push(brotes.slice(i, i + POR_RAMA));
   const R = grupos.length;
   const alto = Math.max(900, 560 + R * PASO);
   const base = alto - 70, cima = 110;
@@ -63,12 +66,14 @@ function disenar(palabras) {
     const c = { x: ANCHO / 2 + lado * 170, y: a.y - 15 };
     ramas.push({ a, c, b, grosor: 4.5 - t * 2.5, retraso: i * 0.2 });
 
-    const mes = grupo[0].fecha.slice(0, 7);
-    if (mes !== mesAnterior) {
+    const mes = grupo[0].brote ? 'brotes' : grupo[0].fecha.slice(0, 7);
+    if (mes === 'brotes' && mesAnterior !== 'brotes') {
+      etiquetas.push({ x: b.x + lado * 14, y: b.y - 8, ancla: lado < 0 ? 'end' : 'start', texto: 'brotes propuestos' });
+    } else if (mes !== 'brotes' && mes !== mesAnterior) {
       const [an, me] = mes.split('-');
       etiquetas.push({ x: b.x + lado * 14, y: b.y - 8, ancla: lado < 0 ? 'end' : 'start', texto: `${MESES[me - 1]} ${an}` });
     }
-    mesAnterior = grupo[grupo.length - 1].fecha.slice(0, 7);
+    mesAnterior = grupo[0].brote ? 'brotes' : grupo[grupo.length - 1].fecha.slice(0, 7);
 
     grupo.forEach((pal, j) => {
       const s = 0.24 + 0.72 * (j + 0.5) / grupo.length;
@@ -109,9 +114,9 @@ function disenar(palabras) {
 }
 
 // ── dibujo ──
-function dibujar(palabras) {
+function dibujar(palabras, brotes) {
   const svg = document.getElementById('arbol');
-  const g = disenar(palabras);
+  const g = disenar(palabras, brotes);
   svg.innerHTML = '';
   svg.setAttribute('viewBox', `0 0 ${ANCHO} ${g.alto}`);
 
@@ -138,7 +143,7 @@ function dibujar(palabras) {
   for (const h of g.hojas) {
     const { w, h: alto } = h, inclin = (azar(h.pal.palabra) - 0.5) * 12;
     const grupo = el('g', {
-      class: `hoja brota ${tipo(h.pal.categoria)}`, transform: `translate(${h.x},${h.y})`,
+      class: `hoja brota ${h.pal.brote ? 'brote' : tipo(h.pal.categoria)}`, transform: `translate(${h.x},${h.y})`,
       tabindex: 0, role: 'button', 'aria-label': h.pal.palabra, 'data-slug': slug(h.pal.palabra),
     }, capaHojas);
     grupo.style.animationDelay = (h.retraso + 0.5) + 's';
@@ -162,12 +167,13 @@ function poner(id, bloque, texto) {
 function abrir(p) {
   $('f-palabra').textContent = p.palabra;
   $('f-fonetica').textContent = p.fonetica || '';
-  $('f-cat').textContent = p.categoria || '';
+  $('f-cat').textContent = p.brote ? 'brote propuesto' : (p.categoria || '');
   $('f-fecha').textContent = p.fecha ? fecha(p.fecha) : '';
   poner('f-esencia', null, p.esencia);
   poner('f-significado', 'b-significado', p.significado);
   poner('f-etimologia', 'b-etimologia', p.etimologia);
   poner('f-aura', 'b-aura', p.aura);
+  poner('f-autor', null, p.brote ? (p.autor ? `Propuesta por ${p.autor}` : 'Propuesta anónima') : '');
   document.querySelectorAll('.hoja.activa').forEach(h => h.classList.remove('activa'));
   document.querySelector(`.hoja[data-slug="${slug(p.palabra)}"]`)?.classList.add('activa');
   $('ficha').classList.add('abierta'); $('ficha').setAttribute('aria-hidden', 'false');
@@ -184,31 +190,91 @@ function cerrar() {
 function cerrarIndice() { $('indice').hidden = true; $('btn-indice').setAttribute('aria-expanded', 'false'); }
 
 // ── inicio ──
-fetch('datos/palabras.json')
-  .then(r => r.json())
-  .then(palabras => {
-    palabras.sort((a, b) => a.fecha.localeCompare(b.fecha));
-    $('contador').textContent = palabras.length === 1 ? '1 palabra' : `${palabras.length} palabras`;
-    dibujar(palabras);
+let palabras = [], brotes = [];
 
-    const lista = $('indice-lista');
-    [...palabras].sort((a, b) => a.palabra.localeCompare(b.palabra, 'es')).forEach(p => {
-      const li = document.createElement('li'), b = document.createElement('button');
-      b.textContent = p.palabra; b.addEventListener('click', () => abrir(p));
-      li.appendChild(b); lista.appendChild(li);
-    });
-    $('btn-indice').addEventListener('click', () => {
-      const abierto = $('indice').hidden;
-      $('indice').hidden = !abierto; $('btn-indice').setAttribute('aria-expanded', String(abierto));
-    });
+function cargarBrotes() {
+  if (!PROPUESTAS_URL) return Promise.resolve([]);
+  return fetch(PROPUESTAS_URL).then(r => r.json())
+    .then(d => (d.brotes || []).map(b => ({ ...b, brote: true })))
+    .catch(() => []);
+}
 
-    const inicial = palabras.find(p => slug(p.palabra) === decodeURIComponent(location.hash.slice(1)));
+function armarIndice() {
+  const lista = $('indice-lista');
+  lista.innerHTML = '';
+  [...palabras, ...brotes].sort((a, b) => a.palabra.localeCompare(b.palabra, 'es')).forEach(p => {
+    const li = document.createElement('li'), b = document.createElement('button');
+    b.textContent = p.palabra;
+    if (p.brote) b.className = 'es-brote';
+    b.addEventListener('click', () => abrir(p));
+    li.appendChild(b); lista.appendChild(li);
+  });
+}
+
+function pintar() {
+  const n = palabras.length;
+  $('contador').textContent = (n === 1 ? '1 palabra' : `${n} palabras`) + (brotes.length ? ` · ${brotes.length} brotes` : '');
+  dibujar(palabras, brotes);
+  armarIndice();
+}
+
+Promise.all([fetch('datos/palabras.json').then(r => r.json()), cargarBrotes()])
+  .then(([p, b]) => {
+    palabras = p.sort((x, y) => x.fecha.localeCompare(y.fecha));
+    const conocidas = new Set(palabras.map(x => slug(x.palabra)));
+    brotes = b.filter(x => !conocidas.has(slug(x.palabra)));   // si ya es hoja, no se repite como brote
+    pintar();
+    const inicial = [...palabras, ...brotes].find(x => slug(x.palabra) === decodeURIComponent(location.hash.slice(1)));
     if (inicial) abrir(inicial);
   })
   .catch(() => {
     $('bosque').innerHTML = '<p style="padding:40px;font-style:italic;color:#a89880">No se pudo cargar datos/palabras.json. Abre la página desde un servidor (ver README).</p>';
   });
 
+$('btn-indice').addEventListener('click', () => {
+  const abierto = $('indice').hidden;
+  $('indice').hidden = !abierto; $('btn-indice').setAttribute('aria-expanded', String(abierto));
+});
+
+// ── proponer una palabra ──
+function cerrarProponer() { $('proponer').classList.remove('abierta'); }
+if (!PROPUESTAS_URL) $('btn-proponer').hidden = true;
+
+$('btn-proponer').addEventListener('click', () => {
+  cerrar(); cerrarIndice();
+  $('proponer').classList.add('abierta'); $('velo').classList.add('visible');
+  $('p-aviso').textContent = ''; $('p-palabra').focus();
+});
+
+$('proponer-form').addEventListener('submit', ev => {
+  ev.preventDefault();
+  const datos = {
+    palabra: $('p-palabra').value.trim(), significado: $('p-significado').value.trim(),
+    autor: $('p-autor').value.trim(), web: $('p-web').value,
+  };
+  if (!datos.palabra) return;
+  if (!/^[\p{L}\s'-]+$/u.test(datos.palabra)) { $('p-aviso').textContent = 'Solo letras, por favor.'; return; }
+  const boton = ev.submitter;
+  boton.disabled = true; $('p-aviso').textContent = 'Plantando…';
+  // text/plain evita la consulta CORS previa, que Apps Script no admite
+  fetch(PROPUESTAS_URL, { method: 'POST', body: JSON.stringify(datos), headers: { 'Content-Type': 'text/plain;charset=utf-8' } })
+    .then(r => r.json())
+    .then(r => {
+      if (!r.ok) throw new Error(r.error);
+      const s = slug(datos.palabra);
+      if (![...palabras, ...brotes].some(x => slug(x.palabra) === s)) {
+        brotes.push({ palabra: datos.palabra, significado: datos.significado, autor: datos.autor, fecha: new Date().toISOString().slice(0, 10), brote: true });
+        pintar();
+      }
+      $('proponer-form').reset();
+      $('p-aviso').textContent = r.repetida ? 'Esa palabra ya estaba propuesta. ¡Gracias!' : 'Gracias. Tu palabra ya brota en la copa del árbol.';
+    })
+    .catch(() => { $('p-aviso').textContent = 'No se pudo enviar. Intenta de nuevo en un momento.'; })
+    .finally(() => { boton.disabled = false; });
+});
+
 $('cerrar').addEventListener('click', cerrar);
-$('velo').addEventListener('click', cerrar);
-document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrar(); cerrarIndice(); } });
+$('cerrar-proponer').addEventListener('click', () => { cerrarProponer(); $('velo').classList.remove('visible'); });
+$('velo').addEventListener('click', () => { cerrar(); cerrarProponer(); });
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { cerrar(); cerrarIndice(); cerrarProponer(); } });
+

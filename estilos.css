@@ -127,3 +127,35 @@ body::before {
 @keyframes crecer { to { stroke-dashoffset: 0; } }
 .brota { opacity: 0; animation: brotar .6s ease forwards; }
 @keyframes brotar { to { opacity: 1; } }
+
+/* ── brotes propuestos ── */
+.hoja.brote path.lamina { fill: rgba(247, 244, 238, .9); stroke-dasharray: 3 3; }
+.hoja.brote text { fill: #8a7a62; font-size: 13px; }
+.indice .es-brote { color: #8a7a62; }
+.indice .es-brote::after { content: ' · brote'; font-size: 11px; color: var(--suave); }
+.ficha .ficha-autor { font-size: 12px; font-style: italic; color: var(--suave); margin: -12px 0 28px; }
+.ficha .ficha-autor:empty { display: none; }
+
+/* ── proponer ── */
+.proponer {
+  position: fixed; left: 50%; bottom: 0; z-index: 210; width: min(460px, 100vw);
+  background: var(--panel); border: 1px solid var(--linea); border-bottom: none;
+  transform: translate(-50%, 105%); transition: transform .45s cubic-bezier(.77, 0, .18, 1);
+}
+.proponer.abierta { transform: translate(-50%, 0); }
+.proponer form { padding: 36px 36px 28px; display: flex; flex-direction: column; gap: 18px; }
+.proponer h2 { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 24px; }
+.proponer .nota { font-family: 'Cormorant Garamond', serif; font-style: italic; color: var(--suave); margin-top: -12px; }
+.proponer label { display: flex; flex-direction: column; gap: 6px; font-size: 9px; letter-spacing: 3px; text-transform: uppercase; color: var(--cafe); }
+.proponer label span { text-transform: none; letter-spacing: 0; font-style: italic; color: var(--suave); font-size: 11px; }
+.proponer input, .proponer textarea {
+  background: transparent; border: none; border-bottom: 1px solid var(--linea); padding: 6px 0;
+  font-family: 'Lora', serif; font-size: 15px; color: var(--tinta); outline: none; resize: none;
+}
+.proponer input:focus, .proponer textarea:focus { border-color: var(--cafe); }
+.proponer input::placeholder { color: #cdc4b2; font-style: italic; }
+.proponer .trampa { position: absolute; left: -9999px; }
+.plantar { align-self: flex-start; background: none; border: none; border-bottom: 1px solid var(--cafe); color: var(--cafe); font-family: 'Lora', serif; font-style: italic; font-size: 15px; padding: 4px 2px; cursor: pointer; }
+.plantar:disabled { opacity: .5; }
+.aviso { font-size: 13px; font-style: italic; color: var(--cafe); min-height: 1em; }
+@media (max-width: 640px) { .cabecera-der { gap: 12px; } }

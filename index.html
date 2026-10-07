@@ -18,6 +18,7 @@
   </div>
   <div class="cabecera-der">
     <span class="contador" id="contador"></span>
+    <button class="btn-indice" id="btn-proponer">proponer una palabra</button>
     <button class="btn-indice" id="btn-indice" aria-expanded="false">índice</button>
   </div>
 </header>
@@ -43,10 +44,25 @@
     <div class="regla"></div>
     <section id="b-significado"><h3>Significado</h3><p id="f-significado"></p></section>
     <section id="b-etimologia"><h3>Etimología</h3><p class="etim" id="f-etimologia"></p></section>
+    <p class="ficha-autor" id="f-autor"></p>
     <section id="b-aura"><h3>Aura</h3><p class="aura" id="f-aura"></p></section>
   </div>
 </aside>
 <div id="velo" class="velo"></div>
+
+<aside id="proponer" class="proponer" aria-label="Proponer una palabra">
+  <button class="cerrar" id="cerrar-proponer" aria-label="Cerrar">✕</button>
+  <form id="proponer-form">
+    <h2>Proponer una palabra</h2>
+    <p class="nota">Brotará en la copa del árbol.</p>
+    <label>Palabra <input id="p-palabra" maxlength="40" required autocomplete="off" placeholder="Noctiluca"></label>
+    <label>Qué significa o por qué te parece hermosa <span>(opcional)</span><textarea id="p-significado" maxlength="400" rows="3"></textarea></label>
+    <label>Tu nombre <span>(opcional)</span><input id="p-autor" maxlength="40" autocomplete="name"></label>
+    <input id="p-web" class="trampa" tabindex="-1" autocomplete="off" aria-hidden="true">
+    <button type="submit" class="plantar">Plantar</button>
+    <p class="aviso" id="p-aviso" role="status"></p>
+  </form>
+</aside>
 
 <script src="arbol.js"></script>
 </body>
