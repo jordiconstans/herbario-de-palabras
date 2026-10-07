@@ -61,7 +61,7 @@ function disenar(palabras) {
     const r = azar(grupo[0].palabra);
     const b = { x: ANCHO / 2 + lado * (330 + r * 60), y: a.y - 190 - r * 50 };
     const c = { x: ANCHO / 2 + lado * 170, y: a.y - 15 };
-    ramas.push({ a, c, b, grosor: 10 - t * 6, retraso: i * 0.2 });
+    ramas.push({ a, c, b, grosor: 4.5 - t * 2.5, retraso: i * 0.2 });
 
     const mes = grupo[0].fecha.slice(0, 7);
     if (mes !== mesAnterior) {
@@ -79,8 +79,8 @@ function disenar(palabras) {
       const largo = 48 + azar(pal.palabra + 'r') * 30;
       const ix = p.x + nx * largo + tx * 18, iy = p.y + ny * largo + ty * 18;
       const ctrl = { x: p.x + nx * largo * 0.6, y: p.y + ny * largo * 0.6 };
-      const w = Math.max(86, pal.palabra.length * 8.8 + 36);
-      hojas.push({ pal, ix, iy, x: ix, y: iy, w, h: 40, desde: p, ctrl, retraso: i * 0.2 + s * 0.6 });
+      const w = Math.max(80, pal.palabra.length * 8.2 + 34);
+      hojas.push({ pal, ix, iy, x: ix, y: iy, w, h: 36, desde: p, ctrl, retraso: i * 0.2 + s * 0.6 });
     });
   });
 
@@ -119,7 +119,7 @@ function dibujar(palabras) {
   const capaTronco = el('g', {}, svg);
   for (let s = 0, N = 24; s < N; s++) {
     const a = g.troncoEn(s / N), b = g.troncoEn((s + 1) / N);
-    el('line', { class: 'tronco', x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'stroke-width': 18 * (1 - s / N) + 2.5 }, capaTronco);
+    el('line', { class: 'tronco', x1: a.x, y1: a.y, x2: b.x, y2: b.y, 'stroke-width': 11 * (1 - s / N) + 1.5 }, capaTronco);
   }
   el('text', { class: 'raiz', x: ANCHO / 2, y: g.base + 40, 'text-anchor': 'middle' }, svg).textContent = 'herbario';
 
@@ -129,7 +129,7 @@ function dibujar(palabras) {
     p.style.animationDelay = r.retraso + 's';
   }
   for (const h of g.hojas) {
-    const p = el('path', { class: 'ramilla crece', d: `M${h.desde.x},${h.desde.y} Q${h.ctrl.x},${h.ctrl.y} ${h.x},${h.y}`, 'stroke-width': 1.6, pathLength: 1 }, capaRamas);
+    const p = el('path', { class: 'ramilla crece', d: `M${h.desde.x},${h.desde.y} Q${h.ctrl.x},${h.ctrl.y} ${h.x},${h.y}`, 'stroke-width': 1, pathLength: 1 }, capaRamas);
     p.style.animationDelay = h.retraso + 's';
   }
   for (const e of g.etiquetas) el('text', { class: 'etiqueta-mes', x: e.x, y: e.y, 'text-anchor': e.ancla }, svg).textContent = e.texto;

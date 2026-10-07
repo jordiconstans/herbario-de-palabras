@@ -4,16 +4,16 @@
   --fondo: #f7f4ee;
   --tinta: #1e1c18;
   --cafe: #7a5c38;
-  --rama: #8a6c44;
+  --rama: #b3a07f;
   --suave: #a89880;
-  --linea: #ddd6c6;
+  --linea: #e6e0d2;
   --panel: rgba(247, 244, 238, 0.97);
   /* hojas por categoría gramatical */
-  --hoja-sust: #dfe3cc;
-  --hoja-adj: #ecdcb9;
-  --hoja-verbo: #e6d0c2;
-  --hoja-otra: #dcd8c8;
-  --borde-hoja: #b9ad8f;
+  --hoja-sust: #e9ecdd;
+  --hoja-adj: #f2e8d2;
+  --hoja-verbo: #efe1d8;
+  --hoja-otra: #e8e5da;
+  --borde-hoja: #cfc5ad;
 }
 
 html, body { background: var(--fondo); color: var(--tinta); font-family: 'Lora', serif; }
@@ -31,12 +31,12 @@ body::before {
   padding: 24px 40px 18px;
   background: linear-gradient(var(--fondo) 70%, transparent);
 }
-.titulo { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 26px; }
+.titulo { font-family: 'Playfair Display', serif; font-style: italic; font-weight: 400; font-size: 22px; color: #3a352c; }
 .subtitulo { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; color: var(--suave); margin-top: 2px; }
 .cabecera-der { display: flex; align-items: center; gap: 18px; white-space: nowrap; }
 .contador { font-size: 11px; letter-spacing: 3px; text-transform: uppercase; color: var(--suave); }
 .btn-indice {
-  background: none; border: 1px solid var(--linea); color: var(--cafe);
+  background: none; border: none; border-bottom: 1px solid var(--linea); color: var(--cafe);
   font-family: 'Lora', serif; font-style: italic; font-size: 13px; padding: 6px 14px; cursor: pointer;
 }
 .btn-indice:hover, .btn-indice[aria-expanded="true"] { border-color: var(--cafe); }
@@ -46,23 +46,23 @@ body::before {
 #arbol { display: block; margin: 0 auto; width: 100%; min-width: 820px; max-width: 1200px; height: auto; }
 
 .tronco, .rama, .ramilla { fill: none; stroke: var(--rama); stroke-linecap: round; }
-.ramilla { opacity: .75; }
-.etiqueta-mes { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 17px; fill: var(--suave); }
+.ramilla { opacity: .55; }
+.etiqueta-mes { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 16px; letter-spacing: 1px; fill: var(--suave); }
 .raiz { font-family: 'Cormorant Garamond', serif; font-style: italic; font-size: 15px; fill: var(--suave); letter-spacing: 2px; }
 
 .hoja { cursor: pointer; outline: none; }
 .hoja .cuerpo { transition: transform .3s cubic-bezier(.34, 1.56, .64, 1); }
-.hoja path.lamina { stroke: var(--borde-hoja); stroke-width: 1; }
-.hoja .nervio { stroke: var(--borde-hoja); stroke-width: .8; fill: none; opacity: .8; }
-.hoja text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 15px; fill: var(--tinta); text-anchor: middle; dominant-baseline: central; pointer-events: none; }
-.hoja:hover .cuerpo, .hoja:focus-visible .cuerpo { transform: scale(1.18); }
+.hoja path.lamina { stroke: var(--borde-hoja); stroke-width: .7; }
+.hoja .nervio { stroke: var(--borde-hoja); stroke-width: .6; fill: none; opacity: .6; }
+.hoja text { font-family: 'Playfair Display', serif; font-style: italic; font-size: 14px; fill: #3a352c; text-anchor: middle; dominant-baseline: central; pointer-events: none; }
+.hoja:hover .cuerpo, .hoja:focus-visible .cuerpo { transform: scale(1.1); }
 .hoja:focus-visible path.lamina, .hoja.activa path.lamina { stroke: var(--cafe); stroke-width: 1.6; }
 .hoja.sust path.lamina { fill: var(--hoja-sust); }
 .hoja.adj path.lamina { fill: var(--hoja-adj); }
 .hoja.verbo path.lamina { fill: var(--hoja-verbo); }
 .hoja.otra path.lamina { fill: var(--hoja-otra); }
 
-.leyenda { display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; padding: 8px 16px 40px; font-size: 12px; color: var(--suave); font-style: italic; }
+.leyenda { opacity: .8; display: flex; gap: 22px; justify-content: center; flex-wrap: wrap; padding: 8px 16px 40px; font-size: 12px; color: var(--suave); font-style: italic; }
 .leyenda span::before { content: ''; display: inline-block; width: 14px; height: 9px; border-radius: 50%; margin-right: 7px; border: 1px solid var(--borde-hoja); vertical-align: middle; }
 .leyenda .sust::before { background: var(--hoja-sust); }
 .leyenda .adj::before { background: var(--hoja-adj); }
@@ -74,7 +74,7 @@ body::before {
   position: fixed; top: 84px; right: 40px; z-index: 60;
   max-height: calc(100vh - 120px); overflow-y: auto; width: 240px;
   background: var(--panel); border: 1px solid var(--linea); padding: 14px 0;
-  box-shadow: 0 8px 30px rgba(60, 45, 20, .1);
+  box-shadow: 0 6px 24px rgba(60, 45, 20, .06);
 }
 .indice ul { list-style: none; }
 .indice button {
@@ -106,7 +106,7 @@ body::before {
 .ficha p.etim { font-style: italic; color: #6a5840; font-size: 14.5px; }
 .ficha p.aura { font-style: italic; color: #8a7a62; font-size: 14px; padding-left: 16px; border-left: 1px solid var(--suave); }
 
-.velo { position: fixed; inset: 0; z-index: 150; background: rgba(30, 28, 24, .15); opacity: 0; pointer-events: none; transition: opacity .35s; }
+.velo { position: fixed; inset: 0; z-index: 150; background: rgba(30, 28, 24, .06); opacity: 0; pointer-events: none; transition: opacity .35s; }
 .velo.visible { opacity: 1; pointer-events: auto; }
 
 @media (max-width: 640px) {
