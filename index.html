@@ -5,47 +5,83 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Herbario de Palabras</title>
 <meta name="description" content="Colección etimológica de palabras españolas con esencias poéticas.">
+<meta property="og:title" content="Herbario de palabras">
+<meta property="og:description" content="Un árbol cuyas hojas son palabras hermosas del español. Toca una hoja y descubre su etimología.">
+<script>
+  // el tema se fija antes de pintar, para que no parpadee
+  (function () {
+    var t = null;
+    try { t = localStorage.getItem('herbario-tema'); } catch (e) {}
+    if (!t) t = window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'noche' : 'dia';
+    document.documentElement.setAttribute('data-tema', t);
+  })();
+</script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;1,400&family=Lora:ital,wght@0,400;1,400&family=Cormorant+Garamond:ital,wght@0,300;1,300;1,400&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Fraunces:ital,opsz,wght@0,9..144,300..700;1,9..144,300..700&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;1,6..72,400&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="estilos.css">
 </head>
 <body>
 
-<header class="cabecera">
-  <div>
-    <h1 class="titulo">Herbario de palabras</h1>
-    <p class="subtitulo">Colección etimológica de palabras españolas con esencias poéticas</p>
-  </div>
-  <div class="cabecera-der">
-    <span class="contador" id="contador"></span>
-    <button class="btn-indice" id="btn-proponer">proponer una palabra</button>
-    <button class="btn-indice" id="btn-indice" aria-expanded="false">índice</button>
-  </div>
+<header class="barra">
+  <a class="marca" href="#" aria-label="Herbario de palabras, inicio">
+    <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true"><path d="M3 20C3 11 9 4 21 3c0 11-6 17-15 17" fill="currentColor" opacity=".9"/><path d="M3 20L14 9" stroke="var(--fondo)" stroke-width="1.4" fill="none" stroke-linecap="round"/></svg>
+    <span>Herbario</span>
+  </a>
+  <nav class="acciones">
+    <button class="boton" id="btn-proponer">proponer una palabra</button>
+    <button class="boton" id="btn-indice" aria-expanded="false" aria-controls="indice">índice</button>
+    <button class="boton boton-tema" id="btn-tema" aria-label="Cambiar entre día y noche"><span id="tema-icono" aria-hidden="true"></span><span id="tema-texto"></span></button>
+  </nav>
 </header>
+
+<section class="portada">
+  <div class="astro" aria-hidden="true"></div>
+  <p class="sobre">Colección etimológica <span class="punto-sep">·</span> <span id="contador"></span></p>
+  <h1 class="titulo">Herbario<br><em>de palabras</em></h1>
+  <p class="bajada">Un árbol cuyas hojas son palabras hermosas del español. Toca una hoja para abrir su ficha: significado, etimología y aura.</p>
+  <button class="hoy" id="hoy" hidden>
+    <span class="hoy-etq">Hoy brota</span>
+    <span class="hoy-palabra" id="hoy-palabra"></span>
+    <span class="hoy-esencia" id="hoy-esencia"></span>
+    <span class="hoy-flecha" aria-hidden="true">→</span>
+  </button>
+  <div class="leyenda" aria-hidden="true">
+    <span class="sust">sustantivo</span><span class="adj">adjetivo</span><span class="verbo">verbo</span><span class="otra">otras</span>
+  </div>
+  <a class="bajar" href="#bosque" aria-label="Ir al árbol"><span>el árbol</span><i></i></a>
+</section>
 
 <main id="bosque" aria-label="Árbol de palabras">
   <svg id="arbol" xmlns="http://www.w3.org/2000/svg" role="group"></svg>
 </main>
-<div class="leyenda" aria-hidden="true">
-  <span class="sust">sustantivo</span><span class="adj">adjetivo</span><span class="verbo">verbo</span><span class="otra">otras</span>
-</div>
+<p class="pie">Las palabras brotan en orden cronológico: las más nuevas, arriba.</p>
 
 <nav id="indice" class="indice" aria-label="Índice de palabras" hidden>
+  <input id="indice-buscar" type="search" placeholder="buscar una palabra…" autocomplete="off" aria-label="Buscar en el índice">
   <ul id="indice-lista"></ul>
 </nav>
 
-<aside id="ficha" class="ficha" aria-hidden="true">
-  <button class="cerrar" id="cerrar" aria-label="Cerrar">✕</button>
+<aside id="ficha" class="ficha" aria-hidden="true" aria-labelledby="f-palabra">
+  <div class="ficha-barra">
+    <span class="ejemplar" id="f-num"></span>
+    <button class="cerrar" id="cerrar" aria-label="Cerrar">✕</button>
+  </div>
   <div class="ficha-cuerpo">
-    <div class="ficha-meta"><span id="f-cat"></span><span id="f-fecha"></span></div>
+    <div class="ficha-meta"><span class="chip"><i class="chip-punto"></i><span id="f-cat"></span></span></div>
     <h2 class="ficha-palabra" id="f-palabra"></h2>
     <div class="ficha-fonetica" id="f-fonetica"></div>
     <p class="ficha-esencia" id="f-esencia"></p>
     <div class="regla"></div>
     <section id="b-significado"><h3>Significado</h3><p id="f-significado"></p></section>
     <section id="b-etimologia"><h3>Etimología</h3><p class="etim" id="f-etimologia"></p></section>
-    <p class="ficha-autor" id="f-autor"></p>
     <section id="b-aura"><h3>Aura</h3><p class="aura" id="f-aura"></p></section>
+    <p class="ficha-autor" id="f-autor"></p>
+    <p class="recolecta" id="f-fecha"></p>
+  </div>
+  <div class="ficha-nav">
+    <button id="ant" class="nav-btn">← anterior</button>
+    <button id="sig" class="nav-btn">siguiente →</button>
   </div>
 </aside>
 <div id="velo" class="velo"></div>

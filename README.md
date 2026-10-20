@@ -10,6 +10,14 @@ Es un árbol cuyas hojas son las palabras. Al tocar una hoja se abre su ficha, c
 - El color de cada hoja indica su categoría gramatical: sustantivo, adjetivo, verbo u otras.
 - Cada palabra tiene su propio enlace, por ejemplo `.../#baladi`.
 
+## Diseño
+
+- Concepto: un pliego de herbario, de día y de noche. El botón de arriba a la derecha cambia el modo y se acuerda de tu elección; si nunca elegiste, sigue el modo del dispositivo.
+- Tipografías: Fraunces (títulos y hojas), Newsreader (texto) y DM Mono (etiquetas).
+- Los colores están al comienzo de `estilos.css`, como variables de día y de noche. Cada categoría gramatical tiene su color de hoja.
+- Cada ficha es un «ejemplar» numerado por orden cronológico. Se navega con los botones o con las flechas del teclado.
+- La portada muestra una «palabra que brota hoy»: una por día, prefiriendo las que ya tienen esencia.
+
 ## Agregar una palabra
 
 Agrega una entrada al final de `datos/palabras.json`:
