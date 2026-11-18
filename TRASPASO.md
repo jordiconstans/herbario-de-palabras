@@ -1,7 +1,7 @@
 # Traspaso: Herbario de palabras
 
 Documento para continuar el proyecto en una sesión nueva de Claude Code. Actualizado el 20 de octubre de 2026.
-Al empezar la sesión nueva, abre la carpeta `C:\Users\Admin\Claude\Projects\herbario-de-palabras` y pide: «Lee TRASPASO.md y README.md».
+Al empezar la sesión nueva, abre la carpeta `C:\Users\Admin\Claude\Projects\904-HERBARIO` y pide: «Lee TRASPASO.md y README.md».
 
 ## Qué es
 
@@ -11,7 +11,7 @@ Estilo pedido: **sobrio, orgánico y liviano a la vista**.
 
 - Web publicada: https://jordiconstans.github.io/herbario-de-palabras/
 - Repositorio: https://github.com/jordiconstans/herbario-de-palabras (rama `main`, GitHub Pages desde `/`)
-- Carpeta local: `C:\Users\Admin\Claude\Projects\herbario-de-palabras`
+- Carpeta local: `C:\Users\Admin\Claude\Projects\904-HERBARIO`
 
 ## Archivos
 
